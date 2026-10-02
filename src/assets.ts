@@ -1,6 +1,12 @@
 // Public images are referenced relative to the document so the same paths work
 // in the dev server, the built dist/ folder and the published artifact.
-export const img = (p: string) => "img/" + p;
+// The standalone build (scripts/standalone.mjs) inlines every image as a data
+// URI in window.__ZONERA_IMG; img() prefers that map when it exists.
+declare global {
+  interface Window { __ZONERA_IMG?: Record<string, string> }
+}
+
+export const img = (p: string) => (typeof window !== "undefined" && window.__ZONERA_IMG?.["img/" + p]) || "img/" + p;
 
 export const UNIT_IMG: Record<string, string> = {
   "5x5": img("units/5x5.webp"),

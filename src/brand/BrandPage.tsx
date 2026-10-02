@@ -297,11 +297,11 @@ export function BrandPage() {
           </ol>
           <div className="br-explore">
             <figure>
-              <img src="img/hero-1280.webp" alt="Selected clean plate" />
+              <img src={HERO.small} alt="Selected clean plate" />
               <figcaption>Selected · three rows, curved drive</figcaption>
             </figure>
             <figure>
-              <img src="img/hero-1280.webp" alt="Selected plate" style={{ objectPosition: "50% 80%" }} />
+              <img src={HERO.small} alt="Selected plate" style={{ objectPosition: "50% 80%" }} />
               <figcaption>Production crop · facility and drive</figcaption>
             </figure>
           </div>

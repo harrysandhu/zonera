@@ -18,9 +18,10 @@ const tags = CDN.map(src => `<script src="${src}"></script>`).join("\n");
 const m = html.match(/<script type="module" crossorigin>([\s\S]*?)<\/script>/) || html.match(/<script type="module">([\s\S]*?)<\/script>/);
 if (!m) throw new Error("inlined bundle not found");
 const app = m[1];
-html = html.replace(m[0], "");
+html = html.replace(m[0], () => "");
 html = html.replace("<!--CDN-->", "");
-html = html.replace("</body>", `${tags}\n<script>${app}</script>\n</body>`);
+// Function replacements: the bundle contains `$&`/`$'` sequences that string replacements would expand.
+html = html.replace("</body>", () => `${tags}\n<script id="zonera-app">${app}</script>\n</body>`);
 
 // Full document for local use (dist/index.html), skeleton-free copy for the artifact.
 writeFileSync("dist/index.html", html);
