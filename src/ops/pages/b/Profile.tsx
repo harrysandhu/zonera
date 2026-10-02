@@ -116,7 +116,7 @@ export function TenantProfile({ t }: { t: Tenant }) {
         <div className={`pb-fact ${t.balance > 0 ? "pb-fact--due" : ""}`}>
           <span className="pb-fact-l">Balance</span>
           <b className="pb-fact-v">{money(t.balance, true)}</b>
-          <span className="pb-fact-s">{t.balance > 0 ? <><i className="pb-dot pb-dot--bad" />{t.daysLate} days late · since {shortDate(openCharges(t)[0]?.date ?? TODAY)}</> : t.balance < 0 ? "Account credit" : <><i className="pb-dot pb-dot--ok" />Paid up</>}</span>
+          <span className="pb-fact-s">{t.balance > 0 ? <><i className="pb-dot pb-dot--bad" />{t.daysLate} days late</> : t.balance < 0 ? "Account credit" : <><i className="pb-dot pb-dot--ok" />Paid up</>}</span>
         </div>
         <div className="pb-fact">
           <span className="pb-fact-l">Monthly</span>
@@ -126,7 +126,7 @@ export function TenantProfile({ t }: { t: Tenant }) {
         <div className="pb-fact">
           <span className="pb-fact-l">Unit{t.unitIds.length > 1 ? "s" : ""}</span>
           <b className="pb-fact-v mono">{t.unitIds.join(", ")}</b>
-          <span className="pb-fact-s">{u && <StatusSwatch status={u.status} />} <span className="faint">{sizeLabel(unitId)}</span></span>
+          <span className="pb-fact-s">{u && <StatusSwatch status={u.status} />} <span className="faint">{u ? u.size.replace("x", "×") : ""}</span></span>
         </div>
         <div className="pb-fact">
           <span className="pb-fact-l">Gate code</span>
@@ -146,7 +146,7 @@ export function TenantProfile({ t }: { t: Tenant }) {
         <div className="pb-fact">
           <span className="pb-fact-l">Autopay</span>
           <b className="pb-fact-v">{t.autopay ? "On" : "Off"}</b>
-          <span className="pb-fact-s">{t.autopay ? t.card : t.name === "Matthew Okafor" ? "Visa •• 3310 expired 08/26" : t.card ? `${t.card} saved` : "No card on file"}</span>
+          <span className="pb-fact-s">{t.autopay ? t.card : t.name === "Matthew Okafor" ? "Card expired 08/26" : t.card ? `${t.card} saved` : "No card on file"}</span>
         </div>
       </div>
 

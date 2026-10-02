@@ -96,7 +96,7 @@ export function readFor(t: Tenant): Read {
         steps: [
           { text: `Take ${money(t.balance)} at the counter and remove the overlock`, action: "pay", label: "Take payment" },
           { text: "Text him an autopay link once he's paid", action: "card", label: "Draft text" },
-          { text: "He's past 14 days, so lien steps are open; hold them until after today's visit", action: "plan", label: "Ask Zonera" },
+          { text: "Hold lien steps until after today's visit", action: "plan", label: "Ask Zonera" },
         ],
       };
     case "Dana Whitfield":

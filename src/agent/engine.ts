@@ -300,7 +300,8 @@ export interface Ctx {
   ask: <K extends WidgetType>(w: K, props: WidgetProps<K>, auto?: string[]) => Promise<WidgetAnswer<K>>;
   /** Show a widget that doesn't wait. Keep the handle to update it live. */
   show: <K extends WidgetType>(w: K, props: WidgetProps<K>) => WidgetHandle<WidgetProps<K>>;
-  effect: (e: EffectSpec) => void;
+  /** Apply a data change, log it (with undo) and commit(). Returns the action id. */
+  effect: (e: EffectSpec) => string;
   event: (text: string, tone?: "info" | "ok" | "warn" | "call") => void;
   focus: (f: Partial<Focus>) => void;
   suggest: (s: string[]) => void;
@@ -489,8 +490,10 @@ export async function run(session: Session, skill: Skill, input: RunInput) {
       check();
       e.run();
       info.effects++;
-      session.actions.unshift({ id: uid("x"), at: clock(), kind: e.kind, text: e.text, undo: e.undo, link: e.link });
+      const id = uid("x");
+      session.actions.unshift({ id, at: clock(), kind: e.kind, text: e.text, undo: e.undo, link: e.link });
       commit({ kind: e.kind, text: e.text, who: "Zonera agent" });
+      return id;
     },
     event(text, tone = "info") {
       check();

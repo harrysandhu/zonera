@@ -288,47 +288,6 @@ export function Checkout() {
           </div>
         </header>
 
-        <div className="st-co-main">
-          {done >= 0 ? (
-            <Processing o={o} q={q.dueToday} done={done} />
-          ) : (
-            <div key={step} className={`st-q ${dir > 0 ? "st-q--up" : "st-q--down"}`}>
-              <div className="st-q-h">
-                <span className="st-q-n mono">
-                  {i + 1}
-                  <ArrowRight />
-                </span>
-                <h1>{copy.q(o)}</h1>
-                {copy.sub && <p>{copy.sub(o)}</p>}
-              </div>
-              <div className={`st-q-b ${shake ? "st-shake" : ""}`} key={shake}>
-                <View o={o} errs={errs} tap={tap} next={next} />
-              </div>
-              <div className="st-q-a">
-                {i > 0 && (
-                  <Button size="lg" onClick={back} data-enter="native" className="st-q-back">
-                    <ArrowLeft /> Back
-                  </Button>
-                )}
-                <Button variant="primary" size="lg" onClick={next} data-tap={tap === "next" ? "" : undefined} data-enter="native">
-                  {last ? (
-                    <>
-                      Sign and pay {money(q.dueToday)}
-                    </>
-                  ) : (
-                    <>
-                      Continue <Check />
-                    </>
-                  )}
-                </Button>
-                <span className="st-enter">
-                  press <b>Enter</b> <CornerDownLeft />
-                </span>
-              </div>
-            </div>
-          )}
-        </div>
-
         <div className={`st-sum ${sumOpen ? "open" : ""}`}>
           {sumOpen && (
             <div className="st-sum-b">
@@ -376,6 +335,47 @@ export function Checkout() {
             <ChevronUp className="st-sum-c" />
           </button>
         </div>
+        <div className="st-co-main">
+          {done >= 0 ? (
+            <Processing o={o} q={q.dueToday} done={done} />
+          ) : (
+            <div key={step} className={`st-q ${dir > 0 ? "st-q--up" : "st-q--down"}`}>
+              <div className="st-q-h">
+                <span className="st-q-n mono">
+                  {i + 1}
+                  <ArrowRight />
+                </span>
+                <h1>{copy.q(o)}</h1>
+                {copy.sub && <p>{copy.sub(o)}</p>}
+              </div>
+              <div className={`st-q-b ${shake ? "st-shake" : ""}`} key={shake}>
+                <View o={o} errs={errs} tap={tap} next={next} />
+              </div>
+              <div className="st-q-a">
+                {i > 0 && (
+                  <Button size="lg" onClick={back} data-enter="native" className="st-q-back">
+                    <ArrowLeft /> Back
+                  </Button>
+                )}
+                <Button variant="primary" size="lg" onClick={next} data-tap={tap === "next" ? "" : undefined} data-enter="native">
+                  {last ? (
+                    <>
+                      Sign and pay {money(q.dueToday)}
+                    </>
+                  ) : (
+                    <>
+                      Continue <Check />
+                    </>
+                  )}
+                </Button>
+                <span className="st-enter">
+                  press <b>Enter</b> <CornerDownLeft />
+                </span>
+              </div>
+            </div>
+          )}
+        </div>
+
       </section>
     </div>
   );

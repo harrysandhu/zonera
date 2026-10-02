@@ -4,7 +4,7 @@ import { Page, PageHeader, Section } from "../kit";
 import { Avatar, Button, Drawer, Pill, Seg } from "../../ui";
 import { activity, commit, go, toast, useDemo } from "../../state/store";
 import { FACILITY } from "../../data/facility";
-import { OPERATOR } from "../../data/tenants";
+import { OPERATOR, TENANTS } from "../../data/tenants";
 import { DrawerHead, Field, Switch } from "./a/kit";
 
 type Tier = "auto" | "ask" | "never";
@@ -59,7 +59,7 @@ const INTEGS: Integ[] = [
   { id: "pti", name: "PTI StorLogix", what: "Gates and doors", detail: "6 devices · codes sync in under 2 seconds", on: true, sync: "Live", mono: "PTI" },
   { id: "esign", name: "Zonera Sign", what: "E-signature", detail: "Built in · ESIGN and UETA compliant, audit trail on every lease", on: true, sync: "Built in", mono: "ZS" },
   { id: "google", name: "Google Business Profile", what: "Listing and reviews", detail: "4.8 from 212 reviews · agent replies to new reviews", on: true, sync: "15 min ago", mono: "G" },
-  { id: "insure", name: "Storage protection carrier", what: "Tenant protection", detail: "Premiums remitted monthly · 128 active plans", on: true, sync: "Oct 1", mono: "P" },
+  { id: "insure", name: "Storage protection carrier", what: "Tenant protection", detail: `Premiums remitted monthly · ${TENANTS.filter(t => t.protection > 0).length} active plans`, on: true, sync: "Oct 1", mono: "P" },
   { id: "cams", name: "Camera system", what: "Video", detail: "Not connected · lets the agent check footage for incidents", on: false, sync: "—", mono: "C" },
 ];
 
