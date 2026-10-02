@@ -393,11 +393,11 @@ const UsMap = React.memo(function UsMap({ live, label }: { live: boolean; label:
         <path d={lv[2]} className="sa-mc-map-f3" strokeWidth={step * 0.56} />
         {picks.map(([x, y], i) => (
           <g key={i}>
-            <circle cx={x} cy={y} r={4} className="sa-mc-map-ring">
-              <animate attributeName="r" values="4;15" dur="2.4s" begin={`${-(i * 0.37) % 2.4}s`} repeatCount="indefinite" />
-              <animate attributeName="opacity" values=".55;0" dur="2.4s" begin={`${-(i * 0.37) % 2.4}s`} repeatCount="indefinite" />
+            <circle cx={x} cy={y} r={5} className="sa-mc-map-ring">
+              <animate attributeName="r" values="5;18" dur="2.4s" begin={`${-(i * 0.37) % 2.4}s`} repeatCount="indefinite" />
+              <animate attributeName="opacity" values=".7;0" dur="2.4s" begin={`${-(i * 0.37) % 2.4}s`} repeatCount="indefinite" />
             </circle>
-            <circle cx={x} cy={y} r={3.6} className="sa-mc-map-ob" />
+            <circle cx={x} cy={y} r={5} className="sa-mc-map-ob" />
           </g>
         ))}
         <g className={live ? "sa-mc-map-hero is-live" : "sa-mc-map-hero"}>
