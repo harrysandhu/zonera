@@ -344,7 +344,8 @@ a.st-sel { font-family: var(--f-mono); font-size: 13.5px; letter-spacing: -0.02e
   .st-hero-sub { font-size: 15px; }
   .st-ask { padding: 12px; border-radius: 14px; }
   .st-ask-row { flex-direction: column; }
-  .st-ask input { height: 48px; font-size: 16px; }
+  .st-ask input { flex: none; height: 48px; font-size: 16px; }
+  .st-ask-h span { display: none; }
   .st-ask .z-btn--lg { width: 100%; }
   .st-ask-ex button:nth-child(n + 5) { display: none; }
   .st-strip { grid-template-columns: 1fr 1fr; }
@@ -689,7 +690,6 @@ a.st-sel { font-family: var(--f-mono); font-size: 13.5px; letter-spacing: -0.02e
   .st-fields--3 > :last-child { grid-column: span 2; }
   .st-plans { grid-template-columns: 1fr; }
   .st-enter { display: none; }
-  .st-q-a { position: sticky; bottom: 76px; background: var(--surface); padding: 10px 0; margin-bottom: -10px; }
   .st-q-a .z-btn--primary { flex: 1; }
 }
 
