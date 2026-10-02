@@ -72,7 +72,7 @@ export function SitePlan({ floor, selected, match, onSelect, onHover }: { floor:
       {BUILDINGS.filter(bd => bd.kind !== "office").map(bd => {
         const above = bd.id === "P";
         return (
-          <text key={bd.id} x={bd.x + (bd.id === "D" ? 0 : 0)} y={above ? bd.z - 5 : bd.id === "D" ? bd.z - 5 : bd.id === "A" ? bd.z + bd.d + 13 : bd.z - 5} className="pa-plan-label">
+          <text key={bd.id} x={bd.x + (bd.id === "D" ? 0 : 0)} y={above ? bd.z - 5 : bd.id === "A" ? bd.z + bd.d + 8.5 : bd.z - 4} className="pa-plan-label">
             {bd.id === "D" ? `D · CLIMATE · FLOOR ${floor}` : bd.id === "P" ? "RV & BOAT" : `BUILDING ${bd.id}`}
           </text>
         );

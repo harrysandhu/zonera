@@ -68,8 +68,9 @@ export function VoiceWave({ call, lanes = 2, height = 64, bar = 2, gap = 2, clas
   useEffect(() => {
     const el = cv.current;
     if (!el) return;
+    const box = el.parentElement!;
     const ro = new ResizeObserver(() => {
-      const w = Math.max(10, Math.round(el.clientWidth));
+      const w = Math.max(10, Math.round(box.clientWidth));
       st.current.w = w;
       const dpr = Math.min(2, window.devicePixelRatio || 1);
       el.width = w * dpr;
@@ -81,7 +82,7 @@ export function VoiceWave({ call, lanes = 2, height = 64, bar = 2, gap = 2, clas
         return out;
       });
     });
-    ro.observe(el);
+    ro.observe(box);
     return () => ro.disconnect();
   }, [height, bar, gap]);
 
@@ -121,9 +122,8 @@ export function VoiceWave({ call, lanes = 2, height = 64, bar = 2, gap = 2, clas
           const smp = s.hist[l][i];
           const cy = laneH * l + laneH / 2;
           const h = Math.max(2, smp.a * (laneH - 6));
-          ctx.globalAlpha = fade * (smp.w ? 1 : 0.55);
-          ctx.fillStyle = smp.w === "ai" ? pal.accent : smp.w === "human" ? pal.ink : smp.w === "caller" ? pal.ink : pal.ink3;
-          if (!smp.w) ctx.globalAlpha = fade * 0.35;
+          ctx.globalAlpha = fade * (smp.w === "caller" ? 0.78 : smp.w ? 1 : 0.35);
+          ctx.fillStyle = smp.w === "ai" ? pal.accent : smp.w ? pal.ink : pal.ink3;
           rr(ctx, x, cy - h / 2, bar, h);
         }
       } else {
@@ -140,7 +140,12 @@ export function VoiceWave({ call, lanes = 2, height = 64, bar = 2, gap = 2, clas
     ctx.globalAlpha = 1;
   });
 
-  return <canvas ref={cv} className={`cc-wave ${className}`} style={{ height }} aria-hidden />;
+  // The canvas is absolutely positioned so its pixel size never feeds back into layout.
+  return (
+    <div className={`cc-wave ${className}`} style={{ height }} aria-hidden>
+      <canvas ref={cv} />
+    </div>
+  );
 }
 
 /** Four tiny bars for list rows and the top-bar pill. Pure CSS. */

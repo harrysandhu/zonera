@@ -202,7 +202,7 @@ export default function GatePage({ id }: { id?: string }) {
                 <th>Zones</th>
                 <th>Window</th>
                 <th>Status</th>
-                <th className="num">Uses today</th>
+                <th className="num">Uses</th>
                 <th />
               </tr>
             </thead>
@@ -332,7 +332,7 @@ function CodeRow({ c }: { c: AccessCode }) {
             ) : (
               c.holder
             )}
-            <small>{c.type === "tenant" ? c.unitIds?.join(", ") : c.company}{c.note && c.type !== "tenant" ? ` · ${c.note}` : ""}</small>
+            <small>{c.type === "tenant" ? c.unitIds?.join(", ") : c.company}</small>
           </span>
         </span>
       </td>
@@ -349,7 +349,10 @@ function CodeRow({ c }: { c: AccessCode }) {
           ))}
         </span>
       </td>
-      <td className={c.window.startsWith("Today") ? "" : "muted"}>{c.window}</td>
+      <td className={c.window.startsWith("Today") ? "" : "muted"}>
+        {c.window}
+        {c.note && c.type !== "tenant" && <span className="pa-code-note">{c.note}</span>}
+      </td>
       <td>
         <Pill tone={tone} dot>
           {c.status === "suspended" ? "Locked out" : c.status[0].toUpperCase() + c.status.slice(1)}
@@ -430,16 +433,16 @@ function NewCodeDrawer({ open, onClose }: { open: boolean; onClose: () => void }
     if (open) setCode(newCode());
   }, [open]);
 
-  const fillHvac = () => {
+  const fillSuggested = () => {
     setType("vendor");
-    setName("Dev Patel");
-    setCompany("Lakeside Mechanical");
-    setPhone("(530) 555-0144");
-    setZones(["lot", "climate"]);
+    setName("Luis Ortega");
+    setCompany("Basin Door Co.");
+    setPhone("(530) 555-0181");
+    setZones(["lot"]);
     setDay("Today");
-    setFrom("1:00 pm");
+    setFrom("3:00 pm");
     setTo("5:00 pm");
-    setNote("HVAC filters, WO-2049");
+    setNote("C-112 jammed door, WO-2051");
   };
 
   const reset = () => {
@@ -476,11 +479,11 @@ function NewCodeDrawer({ open, onClose }: { open: boolean; onClose: () => void }
     <Drawer open={open} onClose={onClose} width={480}>
       <DrawerHead title="New access code" sub="Codes work only inside their zones and window, then expire on their own." onClose={onClose} />
       <div className="pa-form">
-        <button className="pa-suggest" onClick={fillHvac}>
+        <button className="pa-suggest" onClick={fillSuggested}>
           <Sparkles size={14} />
           <span>
             <b>Suggested from today's work orders</b>
-            <span>Lakeside Mechanical · HVAC, Building D · 1:00–5:00 pm</span>
+            <span>Basin Door Co. · C-112 jammed door · today 3:00–5:00 pm</span>
           </span>
           <span className="pa-link">Use</span>
         </button>

@@ -99,7 +99,7 @@ export default function MaintenancePage({ id }: { id?: string }) {
         <Stat label="Open work orders" value={String(openWOs.length)} delta={`${openWOs.filter(w => w.priority === "urgent" || w.priority === "high").length} high or urgent`} tone="warn" sub="" />
         <Stat label="Due today" value={String(dueToday)} delta={`${vendorsToday} vendors`} tone="neutral" sub="on site" />
         <Stat label="Units offline" value={String(offline)} delta={offline ? UNITS.filter(u => u.status === "maintenance").map(u => u.id).join(", ") : "none"} tone={offline ? "bad" : "ok"} sub={offline ? `${fmt.money(UNITS.filter(u => u.status === "maintenance").reduce((s, u) => s + u.rate, 0))}/mo lost` : ""} />
-        <Stat label="Time to close" value="1.6 days" delta="−0.4 days" tone="ok" sub="vs August" spark={[2.6, 2.4, 2.5, 2.1, 2.2, 1.9, 2.0, 1.8, 1.7, 1.6]} />
+        <Stat label="Time to close" value="1.6 days" delta="−0.4d" tone="ok" sub="vs Aug" spark={[2.6, 2.4, 2.5, 2.1, 2.2, 1.9, 2.0, 1.8, 1.7, 1.6]} />
         <Stat label="Spend · 30 days" value={fmt.money(spend)} delta={`${WORK_ORDERS.filter(w => w.cost).length} invoices`} tone="neutral" sub="QuickBooks synced" />
       </StatRow>
 

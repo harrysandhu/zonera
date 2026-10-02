@@ -75,14 +75,13 @@ const NOTIFS = [
 ];
 
 const AUDIT_SEED = [
-  { at: "9:38 am", text: "Sent autopay-failure texts to 5 tenants", perm: "Reminders, receipts and replies", tier: "auto" as Tier, undo: false },
-  { at: "8:55 am", text: "Texted Tahoe Gate & Access about the Gate 2 exit sensor", perm: "Work orders and vendors", tier: "auto" as Tier, undo: false },
-  { at: "8:53 am", text: "Switched Gate 2 to keypad exit", perm: "Issue and revoke gate codes", tier: "auto" as Tier, undo: true },
-  { at: "8:15 am", text: "Issued gate code 418 206 to Lakeside Mechanical, 1–5 pm, Building D", perm: "Issue and revoke gate codes", tier: "auto" as Tier, undo: true },
-  { at: "8:01 am", text: "Set C-112 to maintenance and removed it from the storefront", perm: "Work orders and vendors", tier: "auto" as Tier, undo: true },
-  { at: "Oct 1 6:00 pm", text: "Asked to waive Keiko Cohen's late fee, approved by Priya Raman", perm: "Waive late fees", tier: "ask" as Tier, undo: true },
-  { at: "Oct 1 2:11 pm", text: "Re-listed D-105 at $79", perm: "Move-outs and final bills", tier: "ask" as Tier, undo: true },
-  { at: "Oct 1 9:00 am", text: "Declined to send a lien notice for A-131 and reminded Priya", perm: "Lien notices and auctions", tier: "never" as Tier, undo: false },
+  { at: "8:55", text: "Texted Tahoe Gate & Access about the Gate 2 exit sensor", perm: "Work orders and vendors", tier: "auto" as Tier, undo: false },
+  { at: "8:53", text: "Switched Gate 2 to keypad exit", perm: "Issue and revoke gate codes", tier: "auto" as Tier, undo: true },
+  { at: "8:15", text: "Issued gate code 418 206 to Lakeside Mechanical, 1–5 pm, Building D", perm: "Issue and revoke gate codes", tier: "auto" as Tier, undo: true },
+  { at: "8:01", text: "Set C-112 to maintenance and removed it from the storefront", perm: "Work orders and vendors", tier: "auto" as Tier, undo: true },
+  { at: "Oct 1", text: "Asked to waive Keiko Cohen's late fee, approved by Priya Raman", perm: "Waive late fees", tier: "ask" as Tier, undo: true },
+  { at: "Oct 1", text: "Re-listed D-105 at $79", perm: "Move-outs and final bills", tier: "ask" as Tier, undo: true },
+  { at: "Oct 1", text: "Declined to send a lien notice for A-131 and reminded Priya", perm: "Lien notices and auctions", tier: "never" as Tier, undo: false },
 ];
 
 export default function SettingsPage({ id }: { id?: string }) {
@@ -578,7 +577,7 @@ function Notifications() {
 function AuditDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
   useDemo();
   const [undone, setUndone] = useState<Set<string>>(new Set());
-  const live = activity.filter(a => a.kind === "agent" && !AUDIT_SEED.some(s => s.text === a.text)).slice(0, 6).map(a => ({ at: a.at, text: a.text, perm: a.text.startsWith("Agent permission") ? "Settings change" : "Agent action", tier: "auto" as Tier, undo: false }));
+  const live = activity.filter(a => a.kind === "agent" && !AUDIT_SEED.some(s => s.text === a.text)).slice(0, 6).map(a => ({ at: a.at, text: a.text, perm: a.text.startsWith("Agent permission") ? "Settings change" : a.text.startsWith("Sent autopay") ? "Reminders, receipts and replies" : "Agent action", tier: "auto" as Tier, undo: false }));
   const rows = [...live, ...AUDIT_SEED];
   return (
     <Drawer open={open} onClose={onClose} width={520}>

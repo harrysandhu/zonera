@@ -50,7 +50,7 @@ export default function ReportsPage({ id }: { id?: string }) {
     <Page className="pa-reports">
       <PageHeader
         title="Reports"
-        sub="Written by the agent from your ledger, rent roll and gate logs. Scheduled ones send themselves."
+        sub="Written by the agent from your ledger, rent roll and gate logs"
         ask="Generate the September owner report vs last year"
         actions={
           <Button icon={<Plus />} onClick={() => askAgent("Build me a report of ")}>
@@ -165,15 +165,22 @@ function OwnerReport() {
         </div>
         <ol>
           <li>
+            <p>
             Revenue was <b>{fmt.money(sept.revenue)}</b>, up <b>{(yoy * 100).toFixed(1)}%</b> on September 2025 and {(mom * 100).toFixed(1)}% on August. Occupancy closed at <b>{fmt.pct(occ)}</b>, {occPts.toFixed(1)} points above last year and the {ordinal(gains)} straight month of gains.
+            </p>
           </li>
           <li>
+            <p>
             Rate changes did most of the work. In-place rent is still <b>{Math.abs(gap * 100).toFixed(1)}% below street</b>, and {under.length} tenants sit more than 15% under. Closing half that gap in January adds about <b>{fmt.money(uplift)}</b> a month.
+            </p>
           </li>
           <li>
+            <p>
             10×20s are the soft spot at <b>{fmt.pct(ten20rate, 0)}</b> with {UNITS.filter(u => u.size === "10x20" && u.status === "vacant").length} available. The $1 first-month promo started Sep 20; {LEADS.filter(l => l.size === "10x20")[0]?.name ?? "one lead"} reserved one for Oct 12.
+            </p>
           </li>
           <li>
+            <p>
             Delinquency rose to <b>{fmt.pct(delinq)}</b> of tenants ({fmt.pct(SEPT_LAST_YEAR.delinquency)} a year ago), {fmt.money(pastDue)} in total.{" "}
             {dana ? (
               <>
@@ -186,8 +193,11 @@ function OwnerReport() {
             ) : (
               "All balances are under 30 days."
             )}
+            </p>
           </li>
-          <li>Coming up in October: Gate 2 exit sensor repair, quarterly HVAC service in Building D, and {LEADS.length} reservations due to move in.</li>
+          <li>
+            <p>Coming up in October: Gate 2 exit sensor repair, quarterly HVAC service in Building D, and {LEADS.length} reservations due to move in.</p>
+          </li>
         </ol>
       </section>
 

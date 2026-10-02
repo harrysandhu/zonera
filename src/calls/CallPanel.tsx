@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { X, Maximize2, PhoneOutgoing, Pause, Play, ChevronRight } from "lucide-react";
+import { X, Maximize2, PhoneOutgoing, Pause, Play, ChevronRight, Check, Sparkles } from "lucide-react";
 import { Seg, Avatar } from "../ui";
 import { go, setCallsOpen, useDemo } from "../state/store";
 import { useCalls, ui, bump, calls, recent, campaigns } from "./state";
@@ -8,7 +8,7 @@ import { CallRow, MoodDot } from "./bits";
 import { LiveCall } from "./LiveCall";
 import { Dialer } from "./Dialer";
 import { Playback } from "./Wave";
-import type { Call, RecentCall } from "./types";
+import type { Call, RecentCall, ToolEv } from "./types";
 import "../styles/calls.css";
 
 // Push-in call center panel (right column of the operator shell).
@@ -129,12 +129,43 @@ function PanelList() {
                 <small>bookings</small>
               </div>
             </div>
+            <ActionFeed onOpen={open} />
           </>
         )}
         {ui.tab === "queue" && <QueueList compact />}
         {ui.tab === "recent" && <RecentList onOpen={open} />}
       </div>
     </div>
+  );
+}
+
+/** Everything Zonera Voice has done across calls, newest first. */
+function ActionFeed({ onOpen }: { onOpen: (id: string) => void }) {
+  const acts = calls
+    .flatMap(c => c.events.filter((e): e is ToolEv => e.kind === "tool").map(e => ({ c, e })))
+    .sort((a, b) => b.e.id - a.e.id)
+    .slice(0, 7);
+  return (
+    <section className="cc-feed">
+      <div className="cc-feed-h">
+        <Sparkles />
+        <b>Agent actions</b>
+        <span>across calls</span>
+      </div>
+      <ol className="cc-acts">
+        {acts.map(({ c, e }) => (
+          <li key={e.id} className={e.done ? "" : "run"} onClick={() => onOpen(c.id)}>
+            <span className="cc-acts-i">{e.done ? <Check /> : <span className="cc-spin" />}</span>
+            <div>
+              <b>{e.label}</b>
+              <span className="mono">
+                {e.tool} · {c.name}
+              </span>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
   );
 }
 

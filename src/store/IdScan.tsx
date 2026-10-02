@@ -90,10 +90,10 @@ export function IdScan({ autoStart }: { autoStart?: boolean }) {
           </div>
           {state === "scan" && <div className="st-dl-line" />}
         </div>
-        <span className="st-id-c tl" />
-        <span className="st-id-c tr" />
-        <span className="st-id-c bl" />
-        <span className="st-id-c br" />
+        <span className="st-id-c st-c-tl" />
+        <span className="st-id-c st-c-tr" />
+        <span className="st-id-c st-c-bl" />
+        <span className="st-id-c st-c-br" />
       </div>
 
       <div className="st-id-side">

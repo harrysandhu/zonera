@@ -6,7 +6,7 @@
 /* The panel keeps its final width while the shell column animates from 0, and is
    anchored to the right edge so it slides in rather than reflowing. */
 .cc-panel {
-  --cc-w: calc(min(420px, 36vw) - 2px);
+  --cc-w: calc(min(420px, 36vw) - 14px); /* column minus the shell's 4px + 8px margins and 1px borders */
   width: var(--cc-w); margin-left: calc(100% - var(--cc-w)); height: 100%;
   display: flex; flex-direction: column; min-height: 0; background: var(--surface);
 }
@@ -81,6 +81,13 @@
 .cc-today span { font-family: var(--f-ui); font-size: 17px; font-weight: 550; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
 .cc-today small { font-size: 11.5px; color: var(--ink-3); }
 
+.cc-feed { display: grid; gap: 6px; padding: 12px 14px 8px; border: 1px solid var(--line); border-radius: var(--r-l); }
+.cc-feed-h { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink-3); margin-bottom: 2px; }
+.cc-feed-h svg { width: 13px; height: 13px; color: var(--accent); }
+.cc-feed-h b { color: var(--ink); font-weight: 550; font-size: 13px; }
+.cc-feed .cc-acts li { cursor: pointer; }
+.cc-feed .cc-acts li:hover b { color: var(--accent-ink); }
+
 /* ---- Top-bar pill ------------------------------------------------------------------ */
 .cc-pill {
   display: inline-flex; align-items: center; gap: 7px; height: 28px; padding: 0 10px 0 9px; margin-right: 4px; border-radius: var(--r-s);
@@ -126,7 +133,7 @@
 .cc-link svg { width: 13px; height: 13px; }
 .cc-link:hover { color: var(--accent-ink); }
 
-.cc-wb { position: relative; display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 8px; align-items: stretch; padding: 6px 10px 6px 10px; border-radius: var(--r-m); background: var(--surface-2); transition: box-shadow .2s; }
+.cc-wb { position: relative; display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 8px; align-items: stretch; padding: 6px 10px 6px 10px; border-radius: var(--r-m); background: var(--surface-2); transition: box-shadow .2s; }
 .cc-wb-l { display: grid; align-content: space-around; min-width: 0; }
 .cc-wb-n { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color .15s; }
 .cc-wb-n i { width: 6px; height: 6px; border-radius: 50%; background: var(--ink-3); opacity: .5; flex: none; transition: background .15s, opacity .15s; }
@@ -134,13 +141,14 @@
 .cc-wb-n.on i { opacity: 1; background: var(--ink); }
 .cc-wb-n.ai.on { color: var(--accent); }
 .cc-wb-n.ai.on i { background: var(--accent); }
-.cc-wave { display: block; width: 100%; min-width: 0; }
+.cc-wave { position: relative; display: block; width: 100%; min-width: 0; }
+.cc-wave canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .cc-wb--listen { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 55%, transparent); }
 .cc-wb-live { position: absolute; top: -9px; right: 10px; display: inline-flex; align-items: center; gap: 4px; height: 18px; padding: 0 6px; border-radius: 5px; background: var(--accent); color: #fff; font-size: 10.5px; font-weight: 500; }
 .cc-wb-live svg { width: 11px; height: 11px; }
 
 .cc-ms { display: flex; align-items: center; gap: 8px; font-size: 12px; padding: 0 10px; }
-.cc-ms-l { color: var(--ink-3); width: 84px; flex: none; }
+.cc-ms-l { color: var(--ink-3); width: 92px; flex: none; }
 .cc-ms-bar { flex: 1; display: flex; gap: 3px; height: 5px; }
 .cc-ms-s { flex: 1; border-radius: 3px; background: var(--ink-3); opacity: .4; transition: background .3s; }
 .cc-ms-s--ok { background: var(--ok); opacity: .85; }
@@ -389,6 +397,10 @@ body:has(.z-demobar:not(.z-demobar--hidden)) .cc-page { padding-bottom: 70px; }
 .cc-tile-none { font-size: 11.5px; color: var(--ink-3); }
 .cc-tile--alert { border-color: color-mix(in srgb, var(--warn) 50%, transparent); box-shadow: 0 0 0 3px var(--warn-soft); }
 .cc-tile--alert .cc-tile-who span { color: var(--warn); font-weight: 500; }
+.cc-tile--idle { place-content: center; justify-items: center; text-align: center; gap: 6px; border-style: dashed; background: transparent; color: var(--ink-3); font-size: 12.5px; cursor: default; animation: none; }
+.cc-tile--idle:hover { box-shadow: none; border-color: var(--line); }
+.cc-tile--idle b { color: var(--ink-2); font-size: 13px; font-weight: 550; }
+.cc-tile--idle .cc-mw { margin-bottom: 4px; }
 .cc-tile--ring { border-color: color-mix(in srgb, var(--accent) 45%, transparent); box-shadow: 0 0 0 3px var(--accent-soft); }
 
 .cc-split { display: grid; grid-template-columns: 272px minmax(0, 1fr); gap: 16px; }
@@ -438,6 +450,8 @@ body:has(.z-demobar:not(.z-demobar--hidden)) .cc-page { padding-bottom: 70px; }
 .cc-qpage .cc-q { grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); align-items: start; }
 
 .cc-recent { border: 1px solid var(--line); border-radius: var(--r-l); background: var(--surface); }
+.cc-rt { table-layout: fixed; }
+.cc-rt td { overflow: hidden; text-overflow: ellipsis; }
 .cc-rt th { position: sticky; top: 0; z-index: 1; background: var(--surface); }
 .cc-rt th:first-child, .cc-rt td:first-child { padding-left: 16px; }
 .cc-rt th:last-child, .cc-rt td:last-child { padding-right: 14px; }
@@ -448,8 +462,8 @@ body:has(.z-demobar:not(.z-demobar--hidden)) .cc-page { padding-bottom: 70px; }
 .cc-rt-c > span { display: grid; line-height: 1.3; }
 .cc-rt-c b { font-size: 13px; font-weight: 550; }
 .cc-rt-c small { font-size: 11px; color: var(--ink-3); }
-.cc-rt-i { max-width: 190px; overflow: hidden; text-overflow: ellipsis; color: var(--ink-2); }
-.cc-rt-s { max-width: 300px; overflow: hidden; text-overflow: ellipsis; color: var(--ink-3); }
+.cc-rt-i { color: var(--ink-2); }
+.cc-rt-s { color: var(--ink-3); }
 .cc-rt-x { width: 15px; height: 15px; color: var(--ink-3); transition: transform .2s; display: block; }
 .cc-rt-x.on { transform: rotate(180deg); }
 .cc-rt-d td { background: var(--surface-2); white-space: normal; }
@@ -508,7 +522,7 @@ body:has(.z-demobar:not(.z-demobar--hidden)) .cc-page { padding-bottom: 70px; }
 
 /* ---- Responsive ------------------------------------------------------------------------------ */
 @media (max-width: 1100px) {
-  .cc-panel { --cc-w: 378px; }
+  .cc-panel { --cc-w: 366px; }
 }
 @media (max-width: 1320px) {
   .cc-split { grid-template-columns: minmax(0, 1fr); }
@@ -544,3 +558,7 @@ body:has(.z-demobar:not(.z-demobar--hidden)) .cc-page { padding-bottom: 70px; }
   .cc-cb { font-size: 12px; gap: 4px; padding: 0 4px; }
   .cc-cb svg { width: 14px; height: 14px; }
 }
+
+/* Grid containers that hold no-wrap text: let the single column shrink. */
+.cc-tile, .cc-tx-in, .cc-lc-top, .cc-pl-b, .cc-q, .cc-camp, .cc-sec, .cc-side-s, .cc-co, .cc-wh, .cc-dial-b, .cc-f, .cc-ctl, .cc-sum, .cc-feed, .cc-rr-b, .cc-voice-main, .cc-voice-side { grid-template-columns: minmax(0, 1fr); }
+.cc-tile-f .cc-tool { min-width: 0; }

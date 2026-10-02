@@ -2,7 +2,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Check, ChevronRight, CircleAlert, FileText, FileSpreadsheet, Image as ImageIcon, PhoneCall, Info, CircleCheck, TriangleAlert, X } from "lucide-react";
 import type { Block, Item, Session, ToolCall } from "./engine";
 import { Rich } from "./Rich";
-import { WidgetView } from "./widgets";
+import { WidgetView } from "./widgets/WidgetView";
 
 // The conversation: user bubbles, agent turns (thinking, tool calls, streamed
 // text, widgets, events). Agent blocks are memoised on their version number so

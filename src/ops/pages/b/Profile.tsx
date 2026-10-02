@@ -155,7 +155,7 @@ export function TenantProfile({ t }: { t: Tenant }) {
         onChange={setTab}
         items={[
           { value: "overview", label: "Overview" },
-          { value: "ledger", label: "Ledger", count: ledger.filter(e => e.kind !== "info").length },
+          { value: "ledger", label: "Ledger", count: ledger.length },
           { value: "lease", label: "Lease" },
           { value: "gate", label: "Gate activity" },
           { value: "comms", label: "Communications", count: comms.length },
@@ -519,44 +519,59 @@ function GateTab({ t }: { t: Tenant }) {
       </div>
       <div className="pb-ov">
         <Section title="Visits" action={<span className="pb-legend mono">last 8 weeks</span>}>
-          <div className="pb-heat">
-            <div className="pb-heat-d mono">
-              {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => (
-                <span key={i}>{d}</span>
-              ))}
-            </div>
-            <div className="pb-heat-g">
-              {cells.map(c => (
-                <span
-                  key={c.date}
-                  className={`pb-heat-c ${c.future ? "f" : ""} ${c.d ? "d" : ""} ${c.date === TODAY ? "t" : ""}`}
-                  data-n={Math.min(3, c.n)}
-                  title={`${shortDate(c.date)} · ${c.n} visit${c.n === 1 ? "" : "s"}${c.d ? " · denied" : ""}`}
-                />
-              ))}
-            </div>
-          </div>
-          <div className="pb-heat-k">
-            <span>Less</span>
-            {[0, 1, 2, 3].map(n => (
-              <span key={n} className="pb-heat-c" data-n={n} />
-            ))}
-            <span>More</span>
-            <span className="pb-heat-dk"><span className="pb-heat-c d" data-n={0} /> Denied</span>
-          </div>
-          <div className="pb-hours">
-            {hours.map((h, i) => (
-              <div key={i} className="pb-hours-b" title={`${fmtMin((i + 6) * 60)} · ${h}`}>
-                <i style={{ height: `${Math.max(3, (h / maxH) * 100)}%`, opacity: h ? 1 : 0.35 }} />
+          <div className="pb-gviz">
+            <div>
+              <div className="pb-heat">
+                <span />
+                <div className="pb-heat-w mono">
+                  {Array.from({ length: 8 }, (_, w) => {
+                    const d = new Date(start);
+                    d.setDate(start.getDate() + w * 7);
+                    return <span key={w}>{w % 2 === 0 ? `${d.toLocaleDateString("en-US", { month: "short" })} ${d.getDate()}` : ""}</span>;
+                  })}
+                </div>
+                <div className="pb-heat-d mono">
+                  {["M", "", "W", "", "F", "", "S"].map((d, i) => (
+                    <span key={i}>{d}</span>
+                  ))}
+                </div>
+                <div className="pb-heat-g">
+                  {cells.map(c => (
+                    <span
+                      key={c.date}
+                      className={`pb-heat-c ${c.future ? "f" : ""} ${c.d ? "d" : ""} ${c.date === TODAY ? "t" : ""}`}
+                      data-n={Math.min(3, c.n)}
+                      title={`${shortDate(c.date)} · ${c.n} visit${c.n === 1 ? "" : "s"}${c.d ? " · denied" : ""}`}
+                    />
+                  ))}
+                </div>
               </div>
-            ))}
-          </div>
-          <div className="pb-hours-x mono">
-            <span>6a</span>
-            <span>10a</span>
-            <span>2p</span>
-            <span>6p</span>
-            <span>10p</span>
+              <div className="pb-heat-k">
+                <span>Less</span>
+                {[0, 1, 2, 3].map(n => (
+                  <span key={n} className="pb-heat-c" data-n={n} />
+                ))}
+                <span>More</span>
+                <span className="pb-heat-dk"><span className="pb-heat-c d" data-n={0} /> Denied</span>
+              </div>
+            </div>
+            <div className="pb-gviz-h">
+              <div className="pb-gviz-l">Entries by hour</div>
+              <div className="pb-hours">
+                {hours.map((h, i) => (
+                  <div key={i} className={`pb-hours-b ${i + 6 === peak && h ? "on" : ""}`} title={`${fmtMin((i + 6) * 60)} · ${h}`}>
+                    <i style={{ height: `${Math.max(3, (h / maxH) * 100)}%`, opacity: h ? 1 : 0.35 }} />
+                  </div>
+                ))}
+              </div>
+              <div className="pb-hours-x mono">
+                <span>6a</span>
+                <span>10a</span>
+                <span>2p</span>
+                <span>6p</span>
+                <span>10p</span>
+              </div>
+            </div>
           </div>
         </Section>
         <Section title="Gate log" flush action={<Button size="sm" variant="ghost" onClick={() => go("ops/gate")}>Gate access <ArrowUpRight /></Button>}>

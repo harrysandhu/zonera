@@ -156,6 +156,11 @@ function parseAmounts(t: string): number[] {
   const re = /\$\s?(\d[\d,]*(?:\.\d{1,2})?)|\b(\d[\d,]*(?:\.\d{1,2})?)\s*(?:dollars|bucks|usd)\b/gi;
   let m: RegExpExecArray | null;
   while ((m = re.exec(t))) out.push(Number((m[1] ?? m[2]).replace(/,/g, "")));
+  if (!out.length) {
+    // Bare amounts after a money verb: "a check for 195", "paid 240".
+    const bare = /\b(?:for|of|paid|pays|paying|pay|charge|charged|refund|refunded)\s+(\d{2,5}(?:\.\d{2})?)\b(?!\s*(?:days?|%|am|pm|x|×|units?|ft))/gi;
+    while ((m = bare.exec(t))) out.push(Number(m[1]));
+  }
   return out;
 }
 

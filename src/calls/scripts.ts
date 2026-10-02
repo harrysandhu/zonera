@@ -59,7 +59,7 @@ const leilaInbound: Script = {
   lead: true,
   intent: "Rent a 10×10 this week",
   preroll: 5,
-  startOffset: 41,
+  startOffset: 27,
   steps: [
     hello,
     caller("Hi, I started a reservation on your website last week but never finished it. I need a ten by ten, ideally this week.", 0.2),
@@ -67,7 +67,8 @@ const leilaInbound: Script = {
     ai("Found it. Your reservation from September 28 for a 10×10 stopped at the payment step. Are you still moving this week?"),
     caller("Yes, I'm moving out of my apartment on Saturday. It's mostly furniture and boxes.", 0.3),
     ai("Got it. A 10×10 fits a one-bedroom, so you're in the right size. Do you want drive-up access, or a climate-controlled unit indoors?"),
-    caller("Drive-up. I'll have a rental truck.", 0.3),
+    caller("Drive-up. I'll have a rental truck, and there's a really heavy dresser.", 0.3),
+    ai("Drive-up is perfect for that. Every drive-up unit is on the ground floor with a nine-foot roll-up door, so the dresser goes straight in. Let me see what's open this week."),
     tool("units.search", () => `Found 10×10 ${leilaUnit()} · drive-up · $189/mo`, { running: "Searching 10×10 drive-up units…", ms: 1700 }),
     ai(() => `I have ${leilaUnit()}, a drive-up 10×10 in Building C. It's $189 a month, and you can back the truck right up to the door. Want me to hold it for you?`),
     caller("That sounds perfect. What do I pay to get in?", 0.45),
@@ -229,7 +230,7 @@ const graceAutopay: Script = {
   intent: "Autopay failed · update card",
   campaign: "autopay",
   preroll: 3,
-  startOffset: 29,
+  startOffset: 38,
   steps: [
     caller("Hello, this is Grace.", 0),
     ai(() => `Hi Grace, this is ${voiceName()}, the virtual assistant at Zonera Alder Lake. I'm calling about your storage account. Is now an okay time?`),

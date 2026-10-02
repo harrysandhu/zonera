@@ -187,7 +187,7 @@ export function Access() {
     {
       key: "unit",
       unitId: unit.id,
-      lift: 6,
+      lift: 18,
       children: (
         <div className="st-hl st-hl--unit">
           <b>{unit.id}</b> {sizeLabel(unit.size)}
@@ -211,7 +211,7 @@ export function Access() {
         <rect width="100%" height="100%" fill="url(#st-grid)" />
       </svg>
       {["tl", "tr", "bl", "br"].map(c => (
-        <span key={c} className={`st-hud-c ${c}`} />
+        <span key={c} className={`st-hud-c st-c-${c}`} />
       ))}
 
       <header className="st-hud-top">

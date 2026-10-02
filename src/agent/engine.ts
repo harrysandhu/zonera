@@ -282,7 +282,8 @@ export interface ToolSpec {
 export interface EffectSpec {
   kind: Activity["kind"];
   text: string;
-  run: () => void;
+  /** The data change. Omit for a log-only action (a message that went out). */
+  run?: () => void;
   undo?: () => void;
   link?: { label: string; route: string };
 }
@@ -488,7 +489,7 @@ export async function run(session: Session, skill: Skill, input: RunInput) {
     },
     effect(e) {
       check();
-      e.run();
+      e.run?.();
       info.effects++;
       const id = uid("x");
       session.actions.unshift({ id, at: clock(), kind: e.kind, text: e.text, undo: e.undo, link: e.link });

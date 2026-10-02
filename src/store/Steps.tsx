@@ -69,7 +69,7 @@ function Choices<T extends string | number>({ value, options, onPick, tap, name 
 
 function Field({ label, err, children, hint }: { label: string; err?: string; children: React.ReactNode; hint?: string }) {
   return (
-    <label className={`st-field ${err ? "bad" : ""}`}>
+    <label className={`st-field ${err ? "is-err" : ""}`}>
       <span className="st-field-l">{label}</span>
       {children}
       {err ? (
@@ -239,7 +239,7 @@ export function ProtectionStep({ o, errs, tap }: StepProps) {
           <Field label="Insurance company" err={errs.ownInsurer}>
             <input className="st-in st-in--sm" value={o.ownInsurer} onChange={e => setOrder({ ownInsurer: e.target.value })} placeholder="State Farm, Lemonade, USAA…" autoFocus />
           </Field>
-          <div className={`st-drop ${errs.ownFile ? "bad" : ""}`}>
+          <div className={`st-drop ${errs.ownFile ? "is-err" : ""}`}>
             {progress === null ? (
               <button onClick={upload} data-enter="native">
                 <Upload />
@@ -514,7 +514,7 @@ export function LeaseStep({ o, errs, tap }: StepProps) {
           ))}
         </div>
       )}
-      <div className={`st-sign ${errs.signature ? "bad" : ""}`}>
+      <div className={`st-sign ${errs.signature ? "is-err" : ""}`}>
         <div className="st-sign-pad">
           <span className={`st-sign-v ${sig ? "" : "empty"}`}>{sig || `${o.first} ${o.last}`}</span>
           <i />
@@ -526,7 +526,7 @@ export function LeaseStep({ o, errs, tap }: StepProps) {
           <input className="st-in st-in--sm" value={o.signature} onChange={e => setOrder({ signature: e.target.value })} placeholder={`${o.first} ${o.last}`} autoComplete="off" autoFocus />
         </Field>
       </div>
-      <label className={`st-agree ${errs.agreed ? "bad" : ""}`} data-tap={tap === "agree" ? "" : undefined}>
+      <label className={`st-agree ${errs.agreed ? "is-err" : ""}`} data-tap={tap === "agree" ? "" : undefined}>
         <input type="checkbox" checked={o.agreed} onChange={e => setOrder({ agreed: e.target.checked })} />
         <span className="st-cb">
           <Check />

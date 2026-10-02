@@ -1,5 +1,6 @@
 import { movie, sleep, setCallsOpen, toast, nav, clock } from "../state/store";
 import { typeInto } from "../ui";
+import { TENANT_BY_ID } from "../data/tenants";
 import { registerCallCenter, type OutboundCallRequest } from "./api";
 import { calls, recent, ui, stats, campaigns, bump, nextCallId, nextEvId } from "./state";
 import { SCRIPTS, genericScript, seedCampaignsAndRecent, type Purpose } from "./scripts";
@@ -221,6 +222,7 @@ function startLive(s: Script) {
   const n = s.preroll ?? 0;
   const offset = s.startOffset ?? 20;
   c.startedAt = Date.now() - offset * 1000;
+  c.createdAt = c.startedAt;
   c.clockAt = clock(-Math.ceil(offset / 60));
   const steps = s.steps.slice(0, n);
   const est = steps.map(estimate);
@@ -249,7 +251,8 @@ async function ring(s: Script) {
   c._listenOnOpen = true;
   calls.unshift(c);
   bump();
-  const t = s.tenantId ? `${s.intent}. Zonera Voice is answering.` : "New number. Zonera Voice is answering.";
+  const ten = s.tenantId ? TENANT_BY_ID.get(s.tenantId) : undefined;
+  const t = ten ? `${ten.unitIds[0]}${ten.daysLate ? ` · ${ten.daysLate} days past due` : ""}. Zonera Voice is answering.` : "New number. Zonera Voice is answering.";
   toast({ title: `Incoming call · ${c.name === "New caller" ? c.phone : c.name}`, body: t, tone: "call", action: { label: "Listen", route: `ops/calls/${c.id}` } }, 8000);
   await sleep(4600);
   if (c.status === "ringing") answer(c, "ai");
@@ -509,9 +512,9 @@ export function ensureStarted() {
   if (ui.started) return;
   ui.started = true;
   ui.startedAt = Date.now();
-  startLive(SCRIPTS["leila-inbound"]);
   startLive(SCRIPTS["matthew-gate"]);
   startLive(SCRIPTS["grace-autopay"]);
+  startLive(SCRIPTS["leila-inbound"]);
   setTimeout(() => ring(SCRIPTS["dana-lien"]), 40000);
   setTimeout(() => ring(SCRIPTS["price-shopper"]), 150000);
   bump();
@@ -563,13 +566,14 @@ export function kpis() {
   const total = stats.base + session.length;
   const aiN = Math.round(stats.base * stats.aiAnswered) + session.filter(c => c.direction === "inbound" && !(c.tookOver && c.events.length < 3)).length + session.filter(c => c.direction === "outbound").length;
   const humanN = session.filter(c => c.tookOver).length;
-  const resolvedN = Math.round(stats.base * stats.resolved) + session.filter(c => c.status === "ended" && !c.tookOver).length;
+  const ended = session.filter(c => c.status === "ended");
+  const resolvedN = Math.round(stats.base * stats.resolved) + ended.filter(c => !c.tookOver).length;
   const done = session.filter(c => c.status === "ended" && c.duration);
   const handle = done.length ? (stats.handle * stats.base + done.reduce((a, c) => a + (c.duration ?? 0), 0)) / (stats.base + done.length) : stats.handle;
   return {
     total,
     aiPct: Math.min(1, aiN / total),
-    resolvedPct: Math.min(1, (resolvedN - 0) / total),
+    resolvedPct: Math.min(1, resolvedN / (stats.base + ended.length)),
     humanN,
     bookings: stats.bookings,
     handle,

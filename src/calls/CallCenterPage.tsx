@@ -8,7 +8,7 @@ import { callById, ensureStarted, kpis, liveCalls, mmss, moodNow, toggleListen }
 import { CallAvatar, CallRow, HandlerBadge, MoodDot, Timer, lastLine, lastTool, speakerName, statusText } from "./bits";
 import { LiveCall, ToolChip } from "./LiveCall";
 import { QueueList, sortLive } from "./CallPanel";
-import { VoiceWave, Playback } from "./Wave";
+import { VoiceWave, Playback, MiniWave } from "./Wave";
 import type { Call, RecentCall } from "./types";
 import "../styles/calls.css";
 
@@ -65,10 +65,10 @@ export function CallCenterPage({ id }: { id?: string }) {
       </header>
 
       <StatRow>
-        <Stat label="Calls today" value={k.total} delta="+9" tone="ok" sub="vs last Friday" />
-        <Stat label="Answered by AI" value={`${Math.round(k.aiPct * 100)}%`} delta="0 missed" tone="ok" sub="median ring 1.2s" />
-        <Stat label="Resolved without staff" value={`${Math.round(k.resolvedPct * 100)}%`} delta={`${k.humanN + 3} handed to you`} tone="neutral" />
-        <Stat label="Bookings from calls" value={k.bookings} delta={`${k.bookings > 3 ? "+" + (k.bookings - 3) + " live" : "$567/mo"}`} tone="ok" sub="today" />
+        <Stat label="Calls today" value={k.total} delta="+9" tone="ok" sub="vs last Fri" />
+        <Stat label="Answered by AI" value={`${Math.round(k.aiPct * 100)}%`} delta="0 missed" tone="ok" sub="1.2s to answer" />
+        <Stat label="Resolved without staff" value={`${Math.round(k.resolvedPct * 100)}%`} delta={`${k.humanN + 2} to you`} tone="neutral" sub="today" />
+        <Stat label="Bookings from calls" value={k.bookings} delta={k.bookings > 3 ? `+${k.bookings - 3} live` : "+1"} tone="ok" sub="vs yesterday" />
         <Stat label="Avg handle time" value={mmss(k.handle)} delta="−0:42" tone="ok" sub="vs staff" />
         <Stat label="After-hours" value={k.afterHours} delta="0 missed" tone="ok" sub="since 10 pm" />
       </StatRow>
@@ -121,7 +121,13 @@ export function CallCenterPage({ id }: { id?: string }) {
               {live.map(c => (
                 <LiveTile key={c.id} call={c} />
               ))}
-              {live.length === 0 && <div className="cc-empty">No calls right now. Zonera Voice is answering.</div>}
+              {live.length % 2 === 1 && (
+                <div className="cc-tile cc-tile--idle">
+                  <MiniWave speaking={null} live={false} />
+                  <b>Line open</b>
+                  <span>Zonera Voice picks up new calls on the first ring.</span>
+                </div>
+              )}
             </div>
             <aside className="cc-qrail cc-scroll">
               <div className="cc-rail-h">Outbound queue</div>
@@ -185,6 +191,17 @@ function RecentTable() {
   return (
     <div className="cc-scroll cc-recent">
       <table className="z-table cc-rt">
+        <colgroup>
+          <col style={{ width: 84 }} />
+          <col style={{ width: 210 }} />
+          <col style={{ width: 170 }} />
+          <col style={{ width: 230 }} />
+          <col style={{ width: 84 }} />
+          <col style={{ width: 108 }} />
+          <col style={{ width: 80 }} />
+          <col />
+          <col style={{ width: 40 }} />
+        </colgroup>
         <thead>
           <tr>
             <th>Time</th>

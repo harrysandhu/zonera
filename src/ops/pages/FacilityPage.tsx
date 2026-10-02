@@ -13,6 +13,7 @@ import { UnitDetail } from "./a/UnitDetail";
 import { KIND_LABEL, SIZES, STATUS_ORDER, sizeLabel } from "./a/units";
 
 const HOME = { x: -14, z: -8, zoom: 1.02, az: 0.62, el: 0.62 };
+const narrow = () => window.innerWidth < 860;
 const BUILD_STEPS = ["Reading site-plan.pdf", "Found 6 buildings, 4 drive lanes", "Placed 181 units", "Matched rent roll · 0 discrepancies"];
 
 export default function FacilityPage({ id }: { id?: string }) {
@@ -77,7 +78,10 @@ export default function FacilityPage({ id }: { id?: string }) {
     }
     const b = BUILDINGS.find(x => x.id === bid)!;
     const zoom = Math.min(2.6, Math.max(1.5, 330 / Math.max(b.w, b.d * 1.6)));
-    scene.current?.flyTo({ x: b.x + b.w / 2, z: b.z + b.d / 2, zoom, el: 0.66, az: bid === "C" || bid === "P" ? Math.PI - 0.62 : 0.62 });
+    const az = bid === "C" || bid === "P" ? Math.PI - 0.62 : 0.62;
+    // Nudge the target so the building lands in the free area right of the floating panels.
+    const shift = (narrow() ? 0 : 70) / zoom;
+    scene.current?.flyTo({ x: b.x + b.w / 2 - Math.cos(az) * shift, z: b.z + b.d / 2 + Math.sin(az) * shift, zoom, el: 0.66, az });
   };
 
   const rebuild = () => {
@@ -105,29 +109,6 @@ export default function FacilityPage({ id }: { id?: string }) {
 
   return (
     <div className={`pa-twin ${selected ? "pa-twin--sel" : ""} ${layers ? "pa-twin--layers" : ""}`}>
-      <div className="pa-twin-stage" ref={stage}>
-        <div className="pa-twin-3d" style={{ visibility: view === "3d" ? "visible" : "hidden" }}>
-          <FacilityView
-            mode="ops"
-            interactive
-            view={HOME}
-            selected={selected}
-            fly
-            pulse={pulse}
-            statuses={statuses}
-            extrudeKey={extrudeKey}
-            onReady={s => (scene.current = s)}
-            onSelect={id => setSelected(id)}
-            onHover={(id, x, y) => setHover(id ? { id, x, y } : null)}
-          />
-        </div>
-        {view === "plan" && (
-          <div className="pa-twin-plan">
-            <SitePlan floor={floor} selected={selected} match={match} onSelect={id => id && pick(UNIT_BY_ID.get(id)!)} onHover={(id, x, y) => setHover(id ? { id, x, y } : null)} />
-          </div>
-        )}
-      </div>
-
       <div className="pa-twin-top">
         <PageHeader
           title="Digital twin"
@@ -156,6 +137,31 @@ export default function FacilityPage({ id }: { id?: string }) {
             </>
           }
         />
+      </div>
+
+      <div className="pa-twin-body">
+      <div className="pa-twin-stage" ref={stage}>
+        <div className="pa-twin-3d" style={{ visibility: view === "3d" ? "visible" : "hidden" }}>
+          <FacilityView
+            mode="ops"
+            interactive
+            view={HOME}
+            selected={selected}
+            fly
+            zoom={2}
+            pulse={pulse}
+            statuses={statuses}
+            extrudeKey={extrudeKey}
+            onReady={s => (scene.current = s)}
+            onSelect={id => setSelected(id)}
+            onHover={(id, x, y) => setHover(id ? { id, x, y } : null)}
+          />
+        </div>
+        {view === "plan" && (
+          <div className="pa-twin-plan">
+            <SitePlan floor={floor} selected={selected} match={match} onSelect={id => id && pick(UNIT_BY_ID.get(id)!)} onHover={(id, x, y) => setHover(id ? { id, x, y } : null)} />
+          </div>
+        )}
       </div>
 
       <button className="z-btn pa-twin-layers-btn" onClick={() => setLayers(l => !l)}>
@@ -288,7 +294,7 @@ export default function FacilityPage({ id }: { id?: string }) {
         </div>
       )}
 
-      <div className="pa-twin-hint mono">{view === "3d" ? "Drag to orbit · scroll to zoom · click a door" : `Plan view · 1 px ≈ 1 ft${bldg === "D" ? "" : " · D shows floor " + floor}`}</div>
+      <div className="pa-twin-hint mono">{view === "3d" ? "Drag to orbit · scroll to zoom · click a door" : `Plan view · north up · Building D floor ${floor}`}</div>
 
       {building >= 0 && (
         <div className="pa-build">
@@ -326,6 +332,7 @@ export default function FacilityPage({ id }: { id?: string }) {
           <UnitDetail unitId={selected} variant="panel" onClose={() => setSelected(null)} />
         </div>
       )}
+      </div>
     </div>
   );
 }

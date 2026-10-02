@@ -34,14 +34,8 @@ export function protectionLabel(cover: number) {
 
 // ---------------------------------------------------------------------- ledger
 
-export interface LedgerRow {
-  date: string; // ISO
-  desc: string;
-  charge?: number;
-  payment?: number;
-  balance: number;
-  flag?: "late" | "dup" | "new";
-}
+import type { LedgerRow } from "./widgets/core/types";
+export type { LedgerRow };
 
 /** A ledger that reconciles exactly to the tenant's current balance. */
 export function ledgerFor(t: Tenant): LedgerRow[] {
