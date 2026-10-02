@@ -468,7 +468,8 @@ function LiveActivity() {
     }, 2500);
     return () => window.clearInterval(t);
   }, []);
-  const engine: Row[] = fde.feed.slice(0, 20).map(e => {
+  // Brennan's newest events lead; the rest of the portfolio keeps ticking underneath.
+  const engine: Row[] = fde.feed.slice(0, 7).map(e => {
     let seen = feedState.seen.get(e.id);
     if (!seen) {
       seen = { tick: feedState.tick + 0.5, t: Date.now() };
@@ -598,7 +599,16 @@ function GoLives() {
     const shown = (GO_LIVES.length - 1 - i) % 5 === 0;
     return { label: shown ? label : "\u200b".repeat(i + 1), value: v + (i === GO_LIVES.length - 1 ? live : 0), note: `Week of ${label}` };
   });
-  return <BarChart data={data} height={262} format={v => `${v} facilities`} yFormat={v => String(v)} />;
+  const last4 = GO_LIVES.slice(-4).reduce((a, b) => a + b, 0) + live;
+  const prev4 = GO_LIVES.slice(-8, -4).reduce((a, b) => a + b, 0);
+  return (
+    <>
+      <BarChart data={data} height={252} format={v => `${v} facilities`} yFormat={v => String(v)} />
+      <p className="sa-mc-foot">
+        {last4} went live in the last 4 weeks, up {Math.round((last4 / prev4 - 1) * 100)}% on the 4 before. Median {SUMMARY.medianHours}h from the sales call.
+      </p>
+    </>
+  );
 }
 
 function MigratedFrom() {

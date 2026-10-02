@@ -99,8 +99,9 @@ export function ConfirmRow({ item }: { item: OwnerItem }) {
   if (st.state === "done") return <DoneRow item={item} />;
   const waiting = st.state === "waiting";
   const isNew = !!item.late;
+  const found = item.waitsOn && st.state === "open";
   return (
-    <div className={`ob-row ${isNew ? "ob-row--new" : ""} ${waiting ? "ob-row--wait" : ""}`} id={`ob-${item.id}`}>
+    <div className={`ob-row ${isNew ? "ob-row--new" : ""} ${found ? "ob-row--found" : ""} ${waiting ? "ob-row--wait" : ""}`} id={`ob-${item.id}`}>
       <span className="ob-row-mark">{waiting ? <Spinner size={12} /> : null}</span>
       <div className="ob-row-main">
         <div className="ob-row-h">

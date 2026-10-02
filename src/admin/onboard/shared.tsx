@@ -133,7 +133,7 @@ export type WorkState = "done" | "running" | "waiting" | "you" | "later";
 export function taskWork(id: string): { state: WorkState; label: string } {
   const st: TaskState = fde.tasks[id]?.state ?? "hidden";
   if (st === "done") return { state: "done", label: "Done" };
-  if (st === "running") return { state: "running", label: "Working" };
+  if (st === "running") return { state: "running", label: id === "T18" && fde.exc.dup?.state === "open" ? "With Jordan" : "Working" };
   if (st === "queued") return { state: "running", label: "Starting" };
   if (st === "waiting") return { state: "waiting", label: id === "T10" ? "Waiting on Marcus" : "Waiting" };
   const t = TASK_BY_ID.get(id);

@@ -238,7 +238,7 @@ function Confirms() {
       </header>
       <div className="ob-rows">
         {items.map(i => (
-          <ConfirmRow key={i.id} item={i} />
+          <ConfirmRow key={i.id + fde.items[i.id].state} item={i} />
         ))}
       </div>
     </section>
@@ -249,7 +249,16 @@ function Confirms() {
 
 function Feed() {
   const [all, setAll] = useState(false);
-  const events = fde.feed.filter(e => e.owner);
+  // Owner-facing events, newest first. The engine can say the same thing twice (the
+  // dealer reply, going live); keep the newest of each.
+  const seen = new Set<string>();
+  const events = fde.feed.filter(e => {
+    if (!e.owner) return false;
+    const k = e.owner.startsWith("You're live") ? "live" : e.owner;
+    if (seen.has(k)) return false;
+    seen.add(k);
+    return true;
+  });
   const shown = all ? events : events.slice(0, 6);
   const running = fde.run === "running";
   return (
@@ -298,6 +307,14 @@ const WORK_ICON: Record<WorkState, React.ReactNode> = {
   later: <span className="ob-wdot" />,
 };
 
+/** What's holding a group, in plain words (an exception being resolved by a person). */
+function groupNote(id: string) {
+  if (id !== "check") return "";
+  if (fde.exc.dup?.state === "open") return "Jordan is reviewing two records that may be one person";
+  if (fde.exc.size?.state === "open") return "Asking Priya about one unit's size";
+  return "";
+}
+
 function Work() {
   const [open, setOpen] = useState<string | null>(null);
   const t = taskProgress();
@@ -314,6 +331,7 @@ function Work() {
           const w = groupWork(g.tasks);
           if (!w.total) return null;
           const isOpen = open === g.id;
+          const sub = groupNote(g.id) || (w.now ? TASK_WORDS[w.now] : "");
           const hasNew = g.tasks.some(id => (id === "T22" || id === "T23") && fde.tasks[id].state !== "hidden" && fde.tasks[id].state !== "done");
           return (
             <li key={g.id} className={`ob-work-g is-${w.state} ${isOpen ? "is-open" : ""}`}>
@@ -324,7 +342,7 @@ function Work() {
                     {g.label}
                     {hasNew && <Sparkles size={11} className="ob-work-new" />}
                   </b>
-                  {w.now && !isOpen && <small>{TASK_WORDS[w.now]}</small>}
+                  {!isOpen && sub && <small>{sub}</small>}
                 </span>
                 <span className="ob-work-c mono">
                   {w.done}/{w.total}
