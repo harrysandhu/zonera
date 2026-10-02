@@ -17,7 +17,7 @@ function walk(dir) {
   for (const f of readdirSync(dir)) {
     const p = join(dir, f);
     if (statSync(p).isDirectory()) walk(p);
-    else if (/\.(webp|png|jpg)$/.test(f) && !f.includes("identity")) {
+    else if (/\.(webp|png|jpg)$/.test(f)) {
       const rel = p.replace(/^public\//, "");
       imgs[rel] = `data:image/${f.split(".").pop()};base64,` + readFileSync(p).toString("base64");
     }
