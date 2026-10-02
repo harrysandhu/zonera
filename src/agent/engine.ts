@@ -623,6 +623,13 @@ export async function ghostPress(target: Element, click = true) {
   target.classList.remove("ag-pressing");
 }
 
+/** Move the movie cursor to an element without pressing it. */
+export async function ghostMove(target: Element) {
+  target.scrollIntoView?.({ block: "nearest", behavior: "smooth" });
+  await sleep(160);
+  await ghostTo(target);
+}
+
 export function ghostHide() {
   ghost.el?.classList.remove("ag-ghost--on");
 }
@@ -664,7 +671,8 @@ async function autoplay(s: Session, blockId: string, steps: string[], token: { a
     // If the presenter is looking at another session, answer without the show.
     const onScreen = agent.activeId === s.id && !!document.querySelector(`[data-block="${blockId}"]`);
     const special = verb === "type" || verb === "slide";
-    const el = await find(blockId, special ? key : step, onScreen ? 5000 : 400);
+    let el = await find(blockId, special ? key : step, onScreen ? (ALIAS[step] ? 1200 : 5000) : 400);
+    if (!el && ALIAS[step]) el = await find(blockId, ALIAS[step], onScreen ? 3000 : 400);
     if (!el) continue;
     if (!onScreen) {
       if (!special) (el as HTMLElement).click();
@@ -700,5 +708,16 @@ async function autoplay(s: Session, blockId: string, steps: string[], token: { a
     await ghostPress(el);
     await sleep(520);
   }
+  // A script that didn't land its answer: press the widget's primary button so the film never stalls.
+  if (!token.aborted && isWaiting(blockId)) {
+    const el = await find(blockId, "submit", 1500);
+    if (el && isWaiting(blockId)) {
+      if (agent.activeId === s.id) await ghostPress(el);
+      else (el as HTMLElement).click();
+    }
+  }
   ghostHide();
 }
+
+/** Script verbs that name the outcome rather than the button. */
+const ALIAS: Record<string, string> = { approve: "submit", call: "submit", confirm: "submit", ok: "submit", continue: "submit" };

@@ -53,7 +53,7 @@ export default function ReportsPage({ id }: { id?: string }) {
         sub="Written by the agent from your ledger, rent roll and gate logs"
         ask="Generate the September owner report vs last year"
         actions={
-          <Button icon={<Plus />} onClick={() => askAgent("Build me a report of ")}>
+          <Button icon={<Plus />} onClick={() => askAgent("Break revenue down by unit size")}>
             Custom report
           </Button>
         }

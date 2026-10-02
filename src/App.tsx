@@ -6,6 +6,8 @@ import { Toasts } from "./ui";
 import { OpsShell } from "./ops/OpsShell";
 import { Storefront } from "./store/Storefront";
 import { BrandPage } from "./brand/BrandPage";
+import { Director } from "./movie/Director";
+import { director, finish, openLauncher, useDirector } from "./movie/director";
 
 // Seed the activity feed with the morning so far.
 if (!activity.length) {
@@ -16,6 +18,7 @@ routeFromHash();
 
 export function App() {
   useDemo();
+  useDirector();
   const [hideBar, setHideBar] = useState(false);
   const head = nav.route.split("/")[0];
 
@@ -34,6 +37,7 @@ export function App() {
     <>
       {head === "ops" ? <OpsShell /> : head === "brand" ? <BrandPage /> : <Storefront view={nav.route.split("/")[1] ?? "home"} />}
       <Toasts />
+      <Director />
       <nav className={`z-demobar ${hideBar ? "z-demobar--hidden" : ""}`} aria-label="Demo">
         <button aria-pressed={head === "store"} onClick={() => go("store")}>
           <Store /> Storefront
@@ -57,7 +61,15 @@ export function App() {
           <Palette /> Brand
         </button>
         <span className="sep" />
-        <button aria-pressed={movie.on} onClick={() => setMovie(!movie.on)} title="Scripted flows play themselves">
+        <button
+          aria-pressed={movie.on || !!director.story}
+          onClick={() => {
+            if (director.story) finish();
+            else if (movie.on) setMovie(false);
+            else openLauncher(true);
+          }}
+          title="Play the story, or let scripted flows play themselves"
+        >
           <Clapperboard /> Movie mode
         </button>
         <button onClick={() => setHideBar(true)} title="Hide (press . to toggle)" aria-label="Hide demo bar">

@@ -75,6 +75,6 @@ export default defineSkill<{ who: string }>({
       link: { label: "View unit", route: "ops/units" },
     });
     ctx.show("receipt", { title: "Move-out", no: "MO-20261002-031", payer: t.name, unit: unitId, lines: [{ label: "Prepaid rent refund (29 days)", amount: -refund }], method: t.card ?? "Card on file", balance: 0, sentTo: t.phone, triggered: ["Inspection booked for 3:30 pm", "Gate code ends 10:00 pm", `${unitId} back on the storefront after cleaning`], actionId: id, links: [{ label: "Open profile", route: "ops/tenants/" + t.id }] });
-    ctx.suggest(["Ask Ben for a Google review", "Show available 10×15s", "What needs my attention today?"]);
+    ctx.suggest(["How many 10×15s are free?", "Run a $1 first month on 10×20s until we hit 90%", "What needs my attention today?"]);
   },
 });

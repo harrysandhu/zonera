@@ -120,6 +120,6 @@ export default defineSkill<{ who: string; size: UnitSize }>({
       actionId: id,
       links: [{ label: "Open tenants", route: "ops/tenants" }],
     });
-    ctx.suggest([`Text ${first} directions to ${unit.id}`, "Show today's move-ins", "What needs my attention today?"]);
+    ctx.suggest(["Show today's move-ins", "Make a gate code for the HVAC tech, 1–5pm today, Building D only", "How many 10×10s are free?"]);
   },
 });

@@ -1,0 +1,86 @@
+# Prompts the UI offers as one-click asks. Each must reach a real flow.
+# "prompt" = must not fall back; "prompt => skill.id" = must route to that skill.
+# Agent home · starters
+New customer wants a 10×10 today, Jordan Lee => frontdesk.walkIn
+Matthew came in and paid $240 cash => money.payment
+Move these three reservations in today: Owen Murphy, Hana Sato, Imani Mensah => frontdesk.batchMoveIn
+Ben Carter is moving out Friday => frontdesk.moveOut
+Make a gate code for the HVAC tech, 1–5pm today, Building D only => access.gateCode
+Who's more than 15 days late? => collections.sweep
+Text everyone past due a friendly reminder => comms.send
+Generate the September owner report vs last year => reports.owner
+# Agent home · library
+Rent a 5x10 to the person at the counter, Priya Shah => frontdesk.walkIn
+Pull up Matthew Okafor
+Move Sofia Reyes from her 5×10 to a 10×10
+Show today's move-ins
+Close out Ben Carter's unit today => frontdesk.moveOut
+Okafor dropped off a check for 195 => money.payment
+Charge Grace's card for her balance => money.payment
+Refund Grace's duplicate charge
+Waive Matthew Okafor's late fee
+Fix last night's autopay failures
+Show delinquency aging
+Handle collections for today => collections.sweep
+Start the lien process for Dana Whitfield
+Overlock Dana Whitfield's unit
+Give the cleaners gate access 6–8am tomorrow => access.gateCode
+Who came in after 10pm last night?
+Revoke the HVAC tech's code at 5pm
+Remove the overlock on A-122
+The door on C-210 is jammed
+Log a work order for the Building D elevator
+Any climate units open? => reports.available
+I don't want to do the walkthroughs or the auction prep today
+Run a $1 first month on 10×20s until we hit 90%
+Raise rates 6% for tenants here over a year
+Call Leila Haddad and finish her reservation => growth.call
+Follow up with this week's reservations => comms.send
+Text these 4 people their gate codes: Matthew Cho, Sofia Reyes, Ben Carter, Grace Lindqvist => comms.send
+Email Owen, Hana, Imani and Rafael about move-in times => comms.send
+Send a promo email to 10×20 tenants tomorrow => comms.send
+Show the call center => comms.calls
+What needs my attention today? => day.briefing
+Break revenue down by unit size
+How many 10×10s are free? => reports.available
+Schedule the owner report monthly
+# Chains (chips pressed in order)
+Schedule it monthly
+Pull up Sofia Reyes
+Text everyone past due a reminder => comms.send
+# Next-step chips in the core flows
+Take over the call => comms.calls
+How many 10×15s are free? => reports.available
+Show delinquency aging
+Pull up Grace Lindqvist
+# Operator pages · header asks and buttons
+C-112's door is jammed. Get it fixed and let the tenant know.
+What can the agent do without asking me? => admin.permissions
+Remind everyone who hasn't signed their lease => frontdesk.leaseReminders
+Run the delinquency sweep => collections.sweep
+Hold a free 10×20 for Owen Murphy
+Which units have been empty the longest, and what should I charge?
+Move in a walk-in customer => frontdesk.walkIn
+
+Rewrite the September owner report summary for a first-time investor
+Run a rate review on tenants more than 15% below street
+Move Sofia Reyes from C-108 to C-117, the 10×10
+What's going on with Dana Whitfield's account (A-131)?
+What's going on with A-131?
+Text Grace Lindqvist about D-118
+Offer Dana Whitfield a payment plan for the $448.00 balance on A-131
+Schedule the lien sale for Dana Whitfield (A-131)
+Move out Ben Carter from B-141 after today's inspection
+Explain Matthew Okafor's lease for A-122 in plain language
+Finish Hana Sato's move-in for C-117 => frontdesk.batchMoveIn
+Add an addendum to Sofia Reyes's lease for C-108
+Run a rate review for Sofia Reyes (C-108)
+Follow up on WO-2041, gate 2 exit sensor offline
+# Added flows
+What needs my approval? => admin.permissions
+Set up a payment plan for Dana => collections.paymentPlan
+Who hasn't signed their lease yet? => frontdesk.leaseReminders
+Add Sofia's partner as an authorized user => frontdesk.addendum
+Offer Dana Whitfield a payment plan => collections.paymentPlan
+Add an addendum to Sofia Reyes's lease => frontdesk.addendum
+Explain Sofia Reyes's lease => frontdesk.leaseExplain

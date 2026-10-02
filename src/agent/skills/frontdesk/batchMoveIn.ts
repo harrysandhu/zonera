@@ -25,10 +25,10 @@ export default defineSkill<{ who: string[] }>({
       show: v => `${v.length} people`,
     },
   },
-  match: q => kw(q, [[/\bmove\b.*\bin\b|\bmove-?ins?\b/, 2], [/\b(reservations?|reserved|these (two|three|four|\d))\b/, 2], [/\bbatch|all of them|everyone reserved\b/, 2]]),
+  match: q => kw(q, [[/\bmove\b.*\bin\b|\bmove-?ins?\b/, 2], [/\b(reservations?|reserved|these (two|three|four|\d))\b/, 2], [/\bbatch|all of them|everyone reserved\b/, 2], [/\bfinish\b.*\bmove-?in\b/, 3]]),
   async run(ctx, { slots }) {
     const names = (slots.who ?? DEFAULT).filter(n => RESERVATIONS[n] || lead(n));
-    ctx.title(`Move-ins · ${names.length} reservations`);
+    ctx.title(names.length === 1 ? `Move-in · ${names[0]}` : `Move-ins · ${names.length} reservations`);
     await ctx.think("Match each reservation to its held unit, prepare leases, charge the card on file, issue gate codes.", 1200);
     const picks = names.map(n => {
       const r = RESERVATIONS[n];
@@ -44,7 +44,7 @@ export default defineSkill<{ who: string[] }>({
       { name: "units.hold.check", args: { units: picks.map(p => p.unitId) }, result: picks.map(p => ({ unit: p.unitId, status: "held" })), ms: 700 },
     ]);
     ctx.focus({ units: picks.map(p => p.unitId), selected: picks[0]?.unitId ?? null, tenants: [], leads: names });
-    await ctx.say(`${picks.length} reservations are ready. All units are still held. First month is prorated from today (Oct 2, 30 of 31 days).`);
+    await ctx.say(`${picks.length === 1 ? "The reservation is" : `${picks.length} reservations are`} ready. ${picks.length === 1 ? "The unit is" : "All units are"} still held. First month is prorated from today (Oct 2, 30 of 31 days).`);
     const ok = await ctx.ask(
       "plan",
       {
@@ -104,6 +104,6 @@ export default defineSkill<{ who: string[] }>({
     });
     h.update({ summary: `${picks.length} of ${picks.length} moved in · leases signed · codes sent` });
     await ctx.say(`Done. ${picks.length} customers moved in, leases signed, cards charged and gate codes texted. Units are marked occupied on the twin.`);
-    ctx.suggest(["Text them a welcome note", "Show today's move-ins", "What needs my attention today?"]);
+    ctx.suggest(["Email Owen, Hana, Imani and Rafael about move-in times", "Show today's move-ins", "Call Leila Haddad and finish her reservation"]);
   },
 });

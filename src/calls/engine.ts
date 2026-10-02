@@ -515,9 +515,24 @@ export function ensureStarted() {
   startLive(SCRIPTS["matthew-gate"]);
   startLive(SCRIPTS["grace-autopay"]);
   startLive(SCRIPTS["leila-inbound"]);
-  setTimeout(() => ring(SCRIPTS["dana-lien"]), 40000);
-  setTimeout(() => ring(SCRIPTS["price-shopper"]), 150000);
+  setTimeout(() => ringOnce("dana-lien"), 40000);
+  setTimeout(() => ringOnce("price-shopper"), 150000);
   bump();
+}
+
+/** While a movie story plays, scheduled inbound calls wait for their cue. */
+export const rings = { hold: false };
+
+function ringOnce(id: string, cue = false) {
+  if ((rings.hold && !cue) || calls.some(c => c.script.id === id)) return;
+  void ring(SCRIPTS[id]);
+}
+
+/** Ring a scripted inbound call now (movie stories cue Dana's call). Returns its id. */
+export function ringNow(id: string) {
+  ensureStarted();
+  ringOnce(id, true);
+  return calls.find(c => c.script.id === id)?.id;
 }
 
 export function openCall(id: string) {

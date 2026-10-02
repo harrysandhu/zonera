@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Plus, X, Sparkles, CreditCard, MessageSquare, UserPlus, Users, DoorOpen, KeyRound, AlarmClock, BarChart3 } from "lucide-react";
+import { Plus, X, Sparkles, CreditCard, MessageSquare, UserPlus, Users, DoorOpen, KeyRound, AlarmClock, BarChart3, Play, ArrowRight, Wrench, TrendingUp, Headset } from "lucide-react";
 import { nav, useDemo } from "../state/store";
 import { activeSession, agent, closeSession, isHome, setActive, useAgent } from "./engine";
 import { launch, newTab } from "./controller";
@@ -8,6 +8,8 @@ import { Thread } from "./Thread";
 import { Composer } from "./Composer";
 import { Rail, statusDot } from "./Rail";
 import { Context } from "./Context";
+import { play } from "../movie/director";
+import { CHAINS } from "../movie/stories";
 import "../styles/agent.css";
 
 // Agent workspace: session tabs · operations rail · conversation · composer.
@@ -21,6 +23,50 @@ const STARTERS = [
   { icon: <AlarmClock />, title: "Collections", text: "Who's more than 15 days late?" },
   { icon: <MessageSquare />, title: "Text past-due tenants", text: "Text everyone past due a friendly reminder" },
   { icon: <BarChart3 />, title: "Owner report", text: "Generate the September owner report vs last year" },
+];
+
+// Everything here routes to a real flow (scripts/route-check.mjs checks them).
+const LIBRARY: { icon: React.ReactNode; label: string; prompts: string[] }[] = [
+  {
+    icon: <UserPlus />,
+    label: "Front desk",
+    prompts: ["Rent a 5x10 to the person at the counter, Priya Shah", "Pull up Matthew Okafor", "Move Sofia Reyes from her 5×10 to a 10×10", "Show today's move-ins", "Close out Ben Carter's unit today", "Explain Matthew Okafor's lease for A-122 in plain language", "Add an addendum to Sofia Reyes's lease for C-108", "Remind everyone who hasn't signed their lease"],
+  },
+  {
+    icon: <CreditCard />,
+    label: "Money",
+    prompts: ["Okafor dropped off a check for 195", "Charge Grace's card for her balance", "Refund Grace's duplicate charge", "Waive Matthew Okafor's late fee", "Fix last night's autopay failures"],
+  },
+  {
+    icon: <AlarmClock />,
+    label: "Collections",
+    prompts: ["Show delinquency aging", "Handle collections for today", "Start the lien process for Dana Whitfield", "Set up a payment plan for Dana", "Overlock Dana Whitfield's unit"],
+  },
+  {
+    icon: <KeyRound />,
+    label: "Access",
+    prompts: ["Give the cleaners gate access 6–8am tomorrow", "Who came in after 10pm last night?", "Revoke the HVAC tech's code at 5pm", "Remove the overlock on A-122"],
+  },
+  {
+    icon: <Wrench />,
+    label: "Facility",
+    prompts: ["The door on C-210 is jammed", "Log a work order for the Building D elevator", "Any climate units open?", "I don't want to do the walkthroughs or the auction prep today"],
+  },
+  {
+    icon: <TrendingUp />,
+    label: "Growth",
+    prompts: ["Run a $1 first month on 10×20s until we hit 90%", "Raise rates 6% for tenants here over a year", "Call Leila Haddad and finish her reservation", "Follow up with this week's reservations"],
+  },
+  {
+    icon: <MessageSquare />,
+    label: "Messages",
+    prompts: ["Text these 4 people their gate codes: Matthew Cho, Sofia Reyes, Ben Carter, Grace Lindqvist", "Email Owen, Hana, Imani and Rafael about move-in times", "Send a promo email to 10×20 tenants tomorrow", "Show the call center"],
+  },
+  {
+    icon: <BarChart3 />,
+    label: "Reports",
+    prompts: ["What needs my attention today?", "Break revenue down by unit size", "How many 10×10s are free?", "Schedule the owner report monthly", "What can the agent do without asking me?"],
+  },
 ];
 
 export function AgentWorkspace({ id }: { id?: string }) {
@@ -86,6 +132,55 @@ export function AgentWorkspace({ id }: { id?: string }) {
                     <span>{x.text}</span>
                   </button>
                 ))}
+              </div>
+
+              <div className="ag-home-sec">
+                <div className="ag-home-h">
+                  <b>Watch it work</b>
+                  <span>Several flows in one chat, played with the cursor</span>
+                </div>
+                <div className="ag-chains">
+                  {CHAINS.map(c => (
+                    <button key={c.id} type="button" className="ag-chain" onClick={() => play(c, 0)}>
+                      <span className="ag-chain-h">
+                        <b>{c.title}</b>
+                        <span className="ag-chain-play">
+                          <Play />
+                        </span>
+                      </span>
+                      <span className="ag-chain-steps">
+                        {c.chapters.map((ch, i) => (
+                          <React.Fragment key={ch.id}>
+                            {i > 0 && <ArrowRight />}
+                            <span>{ch.title}</span>
+                          </React.Fragment>
+                        ))}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="ag-home-sec">
+                <div className="ag-home-h">
+                  <b>More to try</b>
+                  <span>Every one of these runs end to end</span>
+                </div>
+                <div className="ag-lib">
+                  {LIBRARY.map(g => (
+                    <div key={g.label} className="ag-lib-g">
+                      <div className="ag-lib-h">
+                        {g.icon}
+                        {g.label}
+                      </div>
+                      {g.prompts.map(t => (
+                        <button key={t} type="button" className="ag-lib-p" onClick={() => launch(t)}>
+                          {t}
+                        </button>
+                      ))}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

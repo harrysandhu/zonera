@@ -11,7 +11,7 @@ export default defineSkill<{ days: number }>({
   featured: true,
   examples: ["Who's more than 15 days late?", "Handle collections for today"],
   slots: { days: { label: "past due", fill: q => q.days, default: 15, show: v => `${v}+ days` } },
-  match: q => kw(q, [[/\b(late|past due|delinquen|collections?|owe)\b/, 3], [/\bwho\b|\bhandle\b/, 1], [/\btext\b|\bemail\b/, -2]]),
+  match: q => kw(q, [[/\b(late|past due|delinquen|collections?|owe)\b|\bdelinquency sweep\b/, 3], [/\bsweep\b/, 2], [/\bwho\b|\bhandle\b/, 1], [/\btext\b|\bemail\b/, -2]]),
   async run(ctx, { slots }) {
     const days = slots.days ?? 15;
     ctx.title(`Collections · ${days}+ days`);
@@ -67,6 +67,6 @@ export default defineSkill<{ days: number }>({
       link: { label: "Open delinquency", route: "ops/delinquency" },
     });
     await ctx.say(`Sent ${chosen.length - locks.length} reminders and overlocked ${locks.length} unit${locks.length === 1 ? "" : "s"}. Replies and payments will show up here and on the Delinquency page.`);
-    ctx.suggest(["Start the lien process for Dana", "Text everyone past due a friendly reminder", "Show delinquency aging"]);
+    ctx.suggest(["Start the lien process for Dana Whitfield", "Text everyone past due a reminder", "Show delinquency aging"]);
   },
 });

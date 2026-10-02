@@ -29,6 +29,6 @@ export default defineSkill<{ size?: string }>({
       links: [{ label: "Open digital twin", route: "ops/facility" }],
     });
     await ctx.say(list.length ? `They're lit on the twin. Cheapest is **${list.slice().sort((a, b) => a.rate - b.rate)[0].id}** at ${money(Math.min(...list.map(u => u.rate)))}/mo.` : "Nothing open in that size right now. I can put people on a waitlist.");
-    ctx.suggest(["Run a $1 first month on 10×20s", "Move Owen Murphy in", "Who's more than 15 days late?"]);
+    ctx.suggest(["Run a $1 first month on 10×20s until we hit 90%", "New customer wants a 10×10 today, Jordan Lee", "Break revenue down by unit size"]);
   },
 });

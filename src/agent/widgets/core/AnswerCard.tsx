@@ -3,10 +3,11 @@ import { ArrowUpRight, ChevronRight } from "lucide-react";
 import { askAgent, go } from "../../../state/store";
 import { defineWidget } from "../frame";
 import { ChartView } from "./chart";
+import { submit } from "../../controller";
 import type { AnswerCardProps } from "./types";
 
 // W10 · One big number with context and a mini list, or a row of tiles.
-// Display only: use with ctx.show(). Item actions start a new ask.
+// Display only: use with ctx.show(). Item actions continue the same chat.
 export const AnswerCard = defineWidget<AnswerCardProps, void>(function AnswerCard(w) {
   const { p } = w;
   return (
@@ -50,7 +51,7 @@ export const AnswerCard = defineWidget<AnswerCardProps, void>(function AnswerCar
                 <span className="ag-ans-li">{it.label}</span>
                 {it.meta && <span className="ag-ans-lm">{it.meta}</span>}
                 {it.action ? (
-                  <button type="button" className="z-btn z-btn--sm" onClick={() => askAgent(it.action!.ask)}>
+                  <button type="button" className="z-btn z-btn--sm" onClick={() => (w.s ? submit(w.s, it.action!.ask) : askAgent(it.action!.ask))}>
                     {it.action.label}
                   </button>
                 ) : it.route ? (

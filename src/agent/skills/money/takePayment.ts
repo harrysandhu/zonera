@@ -72,7 +72,7 @@ export default defineSkill<{ who: string; amount: number | "balance"; method: Me
     if (t.balance <= 0) {
       await ctx.tool("ledger.get", { tenant_id: t.id }, () => ({ balance: 0, autopay: t.autopay, card: t.card ?? null }), 520);
       await ctx.say(`**${t.name}** doesn't owe anything right now. ${t.autopay ? `Autopay on ${t.card} covers the next bill.` : "Want me to record this as a credit toward next month?"}`);
-      ctx.suggest([`Show ${t.first}'s ledger`, "Who's past due?"]);
+      ctx.suggest([`Pull up ${t.name}`, "Show delinquency aging"]);
       return;
     }
 
@@ -119,7 +119,7 @@ export default defineSkill<{ who: string; amount: number | "balance"; method: Me
         await ctx.tool("sms.send", { to: t.phone, template: "card_update", amount }, () => ({ status: "delivered", link: `zonera.co/u/${t.id.toLowerCase()}` }), 700);
         ctx.effect({ kind: "payment", text: `Sent ${t.name} a card-update link for ${money(amount)}` });
         await ctx.say(`Sent. When ${t.first} updates the card I'll charge ${money(amount)} automatically${locked ? ` and release ${unit.id}` : ""}.`);
-        ctx.suggest([`Call ${t.first} about the balance`, "Who else has a failed autopay?"]);
+        ctx.suggest(["Fix last night's autopay failures", `Pull up ${t.name}`, "Show delinquency aging"]);
         return;
       }
       method = pick as Method;
@@ -210,6 +210,6 @@ export default defineSkill<{ who: string; amount: number | "balance"; method: Me
         ? `Done. ${t.first} is paid through ${paidThrough}${locked ? `, ${unit.id} is unlocked and the gate code works again` : ""}. Next rent of ${money(t.rent)} is due the day after.${t.autopay ? "" : " Autopay is off."}`
         : `Recorded. ${money(remaining)} is still open on ${unit.id}${locked ? "; the overlock stays on until it's cleared" : ""}.`,
     );
-    ctx.suggest(t.autopay ? [`Text ${t.first} the receipt again`, "Who else is past due?"] : [`Text ${t.first} an autopay link`, "Who else is past due?", `Show ${t.first}'s ledger`]);
+    ctx.suggest(t.autopay ? ["Fix last night's autopay failures", "Who's more than 15 days late?", `Pull up ${t.name}`] : ["Who's more than 15 days late?", `Pull up ${t.name}`, "Show delinquency aging"]);
   },
 });

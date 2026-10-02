@@ -30,6 +30,6 @@ export default defineSkill<{ who: string }>({
     ctx.show("callHandoff", { name, phone, purpose, script, status: "live", callId });
     ctx.effect({ kind: "call", text: `Zonera Voice calling ${name} · ${purpose.toLowerCase()}`, link: { label: "Open call center", route: "ops/calls" } });
     await ctx.say("Zonera Voice is on the call now. The live transcript is in the call panel on the right; you can whisper to it or take over at any point.");
-    ctx.suggest(["Take over the call", "Text her the payment link instead", "Show the call center"]);
+    ctx.suggest(["Take over the call", "Show the call center", "Email Owen, Hana, Imani and Rafael about move-in times"]);
   },
 });

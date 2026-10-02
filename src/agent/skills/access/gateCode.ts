@@ -62,6 +62,6 @@ export default defineSkill<{ who: string; zone: string; window: { from: string; 
     });
     await ctx.tool("sms.send", { to: "(530) 555-0131", template: "vendor_code" }, { status: "delivered" }, 600);
     ctx.show("answer", { label: "Gate code", value: `${code}#`, context: `${doors} · today ${fmt12(win.from)}–${fmt12(win.to)} · texted to Luis Ortega`, links: [{ label: "Open Gate access", route: "ops/gate" }] });
-    ctx.suggest(["Who came in after 10pm last night?", "Make it recurring every Tuesday", "Revoke it at 5pm sharp"]);
+    ctx.suggest(["Revoke the HVAC tech's code at 5pm", "Who came in after 10pm last night?", "Give the cleaners gate access 6–8am tomorrow"]);
   },
 });

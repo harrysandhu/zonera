@@ -142,6 +142,7 @@ export default defineSkill<{ channel: "sms" | "email"; audience: string; templat
     kw(q, [
       [/\b(text|sms|message|email|e-mail)\b/, 3],
       [/\b(send|tell|notify|let .* know|announce)\b/, 1],
+      [/\bfollow ?up with\b/, 3],
       [/\b(call|phone)\b/, -2],
       [/\breport\b/, -3],
     ]) + (q.people.length || q.segment ? 1 : 0),
@@ -198,7 +199,7 @@ export default defineSkill<{ channel: "sms" | "email"; audience: string; templat
     if (sent.schedule !== "now") {
       ctx.effect({ kind: "agent", text: `Scheduled ${sent.messages.length} ${ch === "sms" ? "texts" : "emails"} (${TEMPLATE_LABEL[template]}) for 9:00 am tomorrow` });
       await ctx.say(`Scheduled for 9:00 am tomorrow. You can cancel it from the actions list until then.`);
-      ctx.suggest(["Send them now instead", "Who's past due?"]);
+      ctx.suggest(["Who's more than 15 days late?", "Show delinquency aging"]);
       return;
     }
     const rows = sent.messages.map(m => ({ id: m.id, name: m.name, to: m.to, state: "queued" as const }));
@@ -231,7 +232,7 @@ export default defineSkill<{ channel: "sms" | "email"; audience: string; templat
       },
     });
     await ctx.say(`All ${sent.messages.length} ${noun} delivered. I'll post replies here as they come in${template === "reminder" ? " and match payments to the balances automatically" : ""}.`);
-    ctx.suggest(template === "reminder" ? ["Call the ones who don't pay by 5 pm", "Who's more than 15 days late?"] : [`Send the same as ${ch === "sms" ? "email" : "text"}`, "Follow up with this week's reservations"]);
+    ctx.suggest(template === "reminder" ? ["Who's more than 15 days late?", "Show delinquency aging", "Start the lien process for Dana Whitfield"] : ["Show today's move-ins", "Call Leila Haddad and finish her reservation", "Follow up with this week's reservations"]);
   },
 });
 

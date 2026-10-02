@@ -187,11 +187,25 @@ export function leaseFor(t: Tenant): Lease {
     live.audit.push({ date: mo.notice, min: 21 * 60 + 5, text: "Notice to vacate received", who: mo.by, meta: `Move-out ${mo.date}` });
   }
   for (const a of EXTRA_AUDIT.get(t.id) ?? []) live.audit.push(a);
+  for (const a of EXTRA_ADDENDA.get(t.id) ?? []) live.addenda.push(a);
   live.audit.sort((a, b) => (a.date === b.date ? a.min - b.min : a.date < b.date ? -1 : 1));
   return live;
 }
 
 const EXTRA_AUDIT = new Map<string, AuditEvent[]>();
+const EXTRA_ADDENDA = new Map<string, Addendum[]>();
+
+/** Attach an addendum added during the demo (agent mode). Returns an undo. */
+export function addAddendum(tenantId: string, a: Omit<Addendum, "id" | "date">) {
+  const list = EXTRA_ADDENDA.get(tenantId) ?? [];
+  const entry: Addendum = { ...a, id: `AD-${list.length + 10}`, date: TODAY };
+  list.push(entry);
+  EXTRA_ADDENDA.set(tenantId, list);
+  return () => {
+    const i = list.indexOf(entry);
+    if (i >= 0) list.splice(i, 1);
+  };
+}
 export function logLease(key: string, e: Omit<AuditEvent, "date" | "min">) {
   const list = EXTRA_AUDIT.get(key) ?? [];
   list.push({ ...e, date: TODAY, min: clockMin() });

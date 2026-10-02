@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, Check, ChevronUp, CornerDownLeft, Phone } from "lucide-react";
 import { FACILITY, UNIT_BY_ID } from "../data/facility";
 import { TENANTS, TENANT_BY_ID, type Tenant } from "../data/tenants";
-import { commit, go, movie, sleep, useDemo } from "../state/store";
+import { activity, commit, go, movie, sleep, useDemo } from "../state/store";
 import { Button, Mark, typeInto } from "../ui";
 import { FacilityView } from "../three/FacilityView";
 import { DEFAULTS, GATE_CODE, getOrder, kindLabel, setOrder, sizeLabel, unitFacts, unitOrDefault, useOrder, type Order } from "./order";
@@ -434,5 +434,8 @@ function moveIn(o: Order) {
   u.status = "occupied";
   u.tenantId = t.id;
   setOrder({ tenantId: t.id });
+  // The morning's feed already mentions this rental; replace that line with the real one.
+  const seeded = activity.findIndex(a => a.who === "Storefront" && a.text.startsWith(`${t.name} rented ${u.id}`));
+  if (seeded >= 0) activity.splice(seeded, 1);
   commit({ kind: "movein", text: `${t.name} rented ${u.id} online. Lease signed, gate code issued.`, who: "Storefront" });
 }

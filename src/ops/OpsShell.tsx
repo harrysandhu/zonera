@@ -108,7 +108,7 @@ export function OpsShell() {
               {g.items.map(it => {
                 const b = it.badge?.();
                 return (
-                  <button key={it.id} className={`os-link ${it.id === "agent" ? "os-link--agent" : ""}`} aria-current={page === it.id ? "page" : undefined} onClick={() => go("ops/" + it.id)}>
+                  <button key={it.id} data-page={it.id} className={`os-link ${it.id === "agent" ? "os-link--agent" : ""}`} aria-current={page === it.id ? "page" : undefined} onClick={() => go("ops/" + it.id)}>
                     {it.icon}
                     <span>{it.label}</span>
                     {it.id === "agent" && <span className="z-kbd os-k">⌘K</span>}
@@ -120,7 +120,7 @@ export function OpsShell() {
           ))}
         </nav>
         <div className="os-foot">
-          <button className="os-link" aria-current={page === "settings" ? "page" : undefined} onClick={() => go("ops/settings")}>
+          <button className="os-link" data-page="settings" aria-current={page === "settings" ? "page" : undefined} onClick={() => go("ops/settings")}>
             <Settings />
             <span>Settings</span>
           </button>
