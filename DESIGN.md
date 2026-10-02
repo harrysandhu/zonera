@@ -20,6 +20,7 @@ Vite + React 18 + TypeScript, vanilla Three.js (r159) wrapped by `src/three/Faci
 | Agent mode | `src/agent` | `ag-` | `src/styles/agent.css` |
 | Call center | `src/calls` | `cc-` | `src/styles/calls.css` |
 | Brand page | `src/brand` | `br-` | `src/styles/brand.css` |
+| **Reserved:** Super Admin portal + Automated FDE (sibling session, branch `claude/sleepy-newton-gwb357`) | `src/admin` | `sa-` (super admin), `ob-` (owner onboarding portal) | its own files; hash routes `#admin…` and `#onboard…` |
 
 Stay inside your directory. Import your stylesheet from your own entry component. If you need a change in a shared file, say so in your report instead of editing it.
 
