@@ -1,6 +1,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { Check, ChevronRight, CircleAlert, FileText, FileSpreadsheet, Image as ImageIcon, PhoneCall, Info, CircleCheck, TriangleAlert, X } from "lucide-react";
-import type { Block, Item, Session, ToolCall } from "./engine";
+import { Check, ChevronRight, ChevronDown, CornerDownRight, CircleAlert, FileText, FileSpreadsheet, Image as ImageIcon, PhoneCall, Info, CircleCheck, TriangleAlert, X } from "lucide-react";
+import { editSlot, type Block, type Item, type Session, type ToolCall } from "./engine";
+import { submit } from "./controller";
 import { Rich } from "./Rich";
 import { WidgetView } from "./widgets/WidgetView";
 
@@ -111,9 +112,19 @@ function AgentTurn({ it, s, last }: { it: Extract<Item, { t: "agent" }>; s: Sess
       </div>
       <div className="ag-turn-b">
         {it.blocks.map(b => (
-          <BlockView key={b.id} b={b} v={b.v} s={s} />
+          <BlockView key={b.id} b={b} v={b.v} s={s} itemId={it.id} />
         ))}
         {idle && <Working />}
+        {last && it.done && s.suggest.length > 0 && (
+          <div className="ag-next">
+            {s.suggest.map(x => (
+              <button key={x} type="button" className="ag-next-b" onClick={() => submit(s, x)}>
+                <CornerDownRight />
+                {x}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -130,8 +141,10 @@ function Working() {
 }
 
 const BlockView = React.memo(
-  function BlockView({ b, s }: { b: Block; v: number; s: Session }) {
+  function BlockView({ b, s, itemId }: { b: Block; v: number; s: Session; itemId: string }) {
     switch (b.t) {
+      case "understand":
+        return <Understand b={b} s={s} itemId={itemId} />;
       case "think":
         return <Thinking b={b} />;
       case "tools":
@@ -146,8 +159,47 @@ const BlockView = React.memo(
         return <WidgetView b={b} s={s} />;
     }
   },
-  (a, b) => a.b === b.b && a.v === b.v && a.s.status === b.s.status,
+  (a, b) => a.b === b.b && a.v === b.v && a.s.status === b.s.status && a.itemId === b.itemId,
 );
+
+function Understand({ b, s, itemId }: { b: Extract<Block, { t: "understand" }>; s: Session; itemId: string }) {
+  const [open, setOpen] = useState<string | null>(null);
+  return (
+    <div className="ag-und">
+      {b.chips.map(c => (
+        <span key={c.key} className="ag-und-w">
+          <button
+            type="button"
+            className={`ag-und-c is-${c.state} ${c.options?.length ? "is-edit" : ""}`}
+            disabled={!c.options?.length}
+            onClick={() => setOpen(o => (o === c.key ? null : c.key))}
+            title={c.state === "default" ? "Default. Click to change" : undefined}
+          >
+            <span className="ag-und-l">{c.label}</span>
+            <span>{c.text}</span>
+            {c.options?.length ? <ChevronDown /> : null}
+          </button>
+          {open === c.key && c.options && (
+            <span className="ag-pop ag-und-pop">
+              {c.options.map(o => (
+                <button
+                  key={String(o.value)}
+                  type="button"
+                  onClick={() => {
+                    setOpen(null);
+                    editSlot(s, itemId, c.key, o.value);
+                  }}
+                >
+                  {o.label}
+                </button>
+              ))}
+            </span>
+          )}
+        </span>
+      ))}
+    </div>
+  );
+}
 
 function Thinking({ b }: { b: Extract<Block, { t: "think" }> }) {
   const [open, setOpen] = useState(false);

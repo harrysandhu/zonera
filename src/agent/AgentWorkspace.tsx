@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Plus, X, Sparkles, CreditCard, MessageSquare, Sun } from "lucide-react";
+import { Plus, X, Sparkles, CreditCard, MessageSquare, UserPlus, Users, DoorOpen, KeyRound, AlarmClock, BarChart3 } from "lucide-react";
 import { nav, useDemo } from "../state/store";
 import { activeSession, agent, closeSession, isHome, setActive, useAgent } from "./engine";
 import { launch, newTab } from "./controller";
@@ -7,15 +7,20 @@ import { seed } from "./seed";
 import { Thread } from "./Thread";
 import { Composer } from "./Composer";
 import { Rail, statusDot } from "./Rail";
+import { Context } from "./Context";
 import "../styles/agent.css";
 
 // Agent workspace: session tabs · operations rail · conversation · composer.
 
 const STARTERS = [
-  { icon: <Sun />, title: "Morning briefing", text: "What needs my attention today?" },
+  { icon: <UserPlus />, title: "Walk-in move-in", text: "New customer wants a 10×10 today, Jordan Lee" },
   { icon: <CreditCard />, title: "Take a payment", text: "Matthew came in and paid $240 cash" },
+  { icon: <Users />, title: "Batch move-ins", text: "Move these three reservations in today: Owen Murphy, Hana Sato, Imani Mensah" },
+  { icon: <DoorOpen />, title: "Move-out", text: "Ben Carter is moving out Friday" },
+  { icon: <KeyRound />, title: "Vendor gate code", text: "Make a gate code for the HVAC tech, 1–5pm today, Building D only" },
+  { icon: <AlarmClock />, title: "Collections", text: "Who's more than 15 days late?" },
   { icon: <MessageSquare />, title: "Text past-due tenants", text: "Text everyone past due a friendly reminder" },
-  { icon: <MessageSquare />, title: "Email four people", text: "Send an email to Owen, Hana, Imani and Rafael about move-in times" },
+  { icon: <BarChart3 />, title: "Owner report", text: "Generate the September owner report vs last year" },
 ];
 
 export function AgentWorkspace({ id }: { id?: string }) {
@@ -38,7 +43,7 @@ export function AgentWorkspace({ id }: { id?: string }) {
   const open = agent.sessions.filter(x => x.open);
 
   return (
-    <div className="ag">
+    <div className={`ag ${isHome(s) ? "ag--home" : ""}`}>
       <Rail />
       <section className="ag-main" data-session={s.id}>
         <div className="ag-tabs" role="tablist">
@@ -93,6 +98,7 @@ export function AgentWorkspace({ id }: { id?: string }) {
           </>
         )}
       </section>
+      {!isHome(s) && <Context s={s} />}
     </div>
   );
 }

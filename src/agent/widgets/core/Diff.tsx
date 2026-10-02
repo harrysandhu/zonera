@@ -26,12 +26,12 @@ export const Diff = defineWidget<DiffProps, DiffAnswer>(function Diff(w) {
         </>
       }
     >
-      <div className="ag-diff">
+      <div className={`ag-diff ${p.rows.every(r => !r.before || r.before === "—") ? "is-new" : ""}`}>
         {p.rows.map(r => (
           <div key={r.field} className="ag-diff-r">
             <span className="ag-diff-f">{r.field}</span>
             <span className="ag-diff-b">{r.before || "—"}</span>
-            <ArrowRight />
+            <ArrowRight className="ag-diff-arrow" />
             <span className="ag-diff-a">{r.after || "—"}</span>
           </div>
         ))}
