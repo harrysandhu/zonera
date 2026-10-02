@@ -19,7 +19,7 @@ src/agent/
 
 Categories: `frontdesk money collections access facility growth comms reports day admin`.
 
-**Ownership.** Category agents own `skills/<cat>/`, `widgets/<cat>/` and `widgets/ext/<cat>.ts`. Everything else in `src/agent` (engine, parser, need, registry, core widgets, workspace UI, `src/styles/agent.css`) has one maintainer: ask for changes instead of editing. Category widget CSS goes in **`src/styles/agent-<cat>.css`**, imported by your widget files, with classes prefixed `ag-<cat>-` (e.g. `ag-money-refund`). Reuse the core classes from `agent.css` listed at the end.
+**Ownership.** Category agents own `skills/<cat>/`, `widgets/<cat>/` and `widgets/ext/<cat>.ts`. Everything else in `src/agent` (engine, parser, need, registry, core widgets, workspace UI, `src/styles/agent.css`) has one maintainer: ask for changes instead of editing. Category widget CSS goes in **`src/styles/agent-<cat>.css`**, imported by your widget files, with the prefix the lead assigned (agent-frontdesk.css `agf-`, agent-money.css `agm-`, agent-access.css `aga-`, agent-growth.css `agg-`, agent-reports.css `agr-`). Reuse the core classes from `agent.css` listed at the end.
 
 ---
 
@@ -235,9 +235,9 @@ The key (`refund`) is the type you pass to `ctx.ask("refund", props, auto)`; pro
 
 | Skill | File | Examples |
 |---|---|---|
-| #68 Morning briefing | `skills/day/briefing.ts` | "What needs my attention today?" |
-| #13 Take a payment | `skills/money/takePayment.ts` | "Matthew came in and paid $240 cash" · "Okafor dropped off a check for 195" · "Charge Grace's card for her balance" |
-| #55 + #54 Send SMS / email | `skills/comms/sendMessages.ts` | "Text everyone past due a reminder" · "Text these 4 people their gate codes: …" · "Email Owen, Hana, Imani and Rafael about move-in times" · "Send a promo email to 10×20 tenants tomorrow" |
+| #68 Morning briefing (now owned by the day agent) | `skills/day/briefing.ts` | "What needs my attention today?" |
+| #13 Take a payment (now owned by the money agent; full widget is `stripePay`, core `payment` is the simple fallback) | `skills/money/takePayment.ts` | "Matthew came in and paid $240 cash" · "Okafor dropped off a check for 195" · "Charge Grace's card for her balance" |
+| #55 + #54 Send SMS / email (now owned by the comms agent) | `skills/comms/sendMessages.ts` | "Text everyone past due a reminder" · "Text these 4 people their gate codes: …" · "Email Owen, Hana, Imani and Rafael about move-in times" · "Send a promo email to 10×20 tenants tomorrow" |
 | Fallback | `skills/fallback.ts` | out-of-scope prompts, "what can you do" |
 
 Workspace features owned by the engine maintainer: session tabs, rail (lists `featured` skills by category + recent sessions), context panel (3D twin from `ctx.focus`, entity cards, Actions taken with Undo), composer (`/` commands from skill titles, attachments `alder-lake-site-plan.pdf` / `rent-roll-sept.csv`, voice mode), home state, movie mode, `askAgent()` / ⌘K hand-off.

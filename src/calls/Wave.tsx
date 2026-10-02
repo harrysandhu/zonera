@@ -44,6 +44,33 @@ function nextAmp(prev: number, speaking: boolean) {
   return prev + (target - prev) * (speaking ? 0.72 : 0.5);
 }
 
+function synthHistory(n: number): Sample[][] {
+  const a: Sample[] = [];
+  const b: Sample[] = [];
+  let agent = Math.random() < 0.5;
+  let run = 0;
+  let gapLeft = 0;
+  let lvl = 0;
+  for (let i = 0; i < n; i++) {
+    if (gapLeft > 0) {
+      gapLeft--;
+      a.push({ a: 0.03 + Math.random() * 0.04, w: null });
+      b.push({ a: 0.03 + Math.random() * 0.04, w: null });
+      continue;
+    }
+    if (run-- <= 0) {
+      agent = !agent;
+      run = 16 + Math.floor(Math.random() * 38);
+      gapLeft = 3 + Math.floor(Math.random() * 5);
+    }
+    lvl = nextAmp(lvl, Math.random() > 0.1);
+    const quiet = { a: 0.03 + Math.random() * 0.04, w: null };
+    a.push(agent ? { a: lvl, w: "ai" } : quiet);
+    b.push(agent ? { a: 0.03 + Math.random() * 0.04, w: null } : { a: lvl, w: "caller" });
+  }
+  return [a, b];
+}
+
 function rr(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number) {
   const r = Math.min(w / 2, h / 2);
   ctx.beginPath();
@@ -76,6 +103,11 @@ export function VoiceWave({ call, lanes = 2, height = 64, bar = 2, gap = 2, clas
       el.width = w * dpr;
       el.height = height * dpr;
       const n = Math.ceil(w / (bar + gap)) + 1;
+      if (!st.current.hist[0].length && call.status === "live" && call.events.length > 1) {
+        // A call that was already going when this view opened: draw plausible history.
+        st.current.hist = synthHistory(n);
+        return;
+      }
       st.current.hist = st.current.hist.map(h => {
         const out = h.slice(-n);
         while (out.length < n) out.unshift({ a: 0.03 + Math.random() * 0.03, w: null });

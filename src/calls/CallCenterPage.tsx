@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ArrowLeft, PhoneOutgoing, Play, Pause, Sparkles, ChevronDown, Check } from "lucide-react";
+import { ArrowLeft, PhoneOutgoing, Play, Pause, Sparkles, ChevronDown, Check, AudioLines } from "lucide-react";
 import { Seg, Avatar, Pill } from "../ui";
 import { Stat, StatRow } from "../ops/kit";
 import { go, nav, setCallsOpen, useDemo } from "../state/store";
@@ -327,7 +327,9 @@ function VoiceSettings() {
             {VOICES.map(vo => (
               <div key={vo.id} className={`cc-vc ${persona.voice === vo.id ? "on" : ""}`} onClick={() => set(() => (persona.voice = vo.id))} role="radio" aria-checked={persona.voice === vo.id} tabIndex={0}>
                 <div className="cc-vc-h">
-                  <Avatar name={vo.name + " Voice"} size="sm" />
+                  <span className="cc-vc-ic">
+                    <AudioLines />
+                  </span>
                   <div>
                     <b>{vo.name}</b>
                     <span>{vo.tone}</span>
