@@ -55,6 +55,17 @@ Each operation is a scripted session: user message → thinking → tool calls (
 19. Refund a duplicate charge
 20. **Call a customer** — *"Call Leila and finish her reservation"* → hands off to the voice agent in the call center
 
+Beyond the 20, agent mode also runs: tenant lookup, unit transfer, today's move-ins, revenue by unit size, report schedules, delinquency aging, payment plans, waivers, gate log, code revocation, lease explanations, addenda, signature reminders and agent permissions. Every reply ends with next-step chips that route to a real flow, so one chat can chain several operations; `node scripts/route-check.mjs` verifies every chip and every dashboard "Ask Zonera" prompt against `scripts/prompts.txt`.
+
+## Movie mode
+
+The demo films itself. **Movie mode** in the demo bar opens a launcher:
+
+- **A Friday at Alder Lake** (about 7 minutes, 11 chapters): Maya rents online → the dashboard at 9:44 → Matthew pays cash → a walk-in → three move-ins in one sentence → a vendor gate code in a new tab → collections and reminders → the call center → Dana's lien call escalates to Priya → every screen in sync → the owner report. A visible cursor clicks and types; captions name each scene. Space pauses, → skips, Esc stops, speed 1×/1.5×/2×, any chapter can be started on its own for retakes, and playing from the start reloads first so each take is clean.
+- **Agent chains**: short stories that run several flows in one chat (front desk rush, collections day, vendor visit, fill the 10×20s, month end, Sofia upsizes). Also on the agent home under "Watch it work".
+
+Code: `src/movie/` (director, stories, chrome) and `src/styles/movie.css`.
+
 ## Call center
 
 - Push-in panel from the right on every operator screen: live calls with waveforms, intent, sentiment, timers.

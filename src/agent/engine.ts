@@ -508,7 +508,9 @@ export async function run(session: Session, skill: Skill, input: RunInput) {
       notify();
     },
     suggest(s) {
-      session.suggest = s;
+      // Never offer the ask that was just answered.
+      const asked = input.text.trim().toLowerCase();
+      session.suggest = s.filter(x => x.trim().toLowerCase() !== asked);
       notify();
     },
     wait,

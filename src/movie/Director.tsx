@@ -218,7 +218,7 @@ function Launcher() {
               }}
             />
             <span>
-              <b>Autoplay widgets</b> · flows you start yourself type and click on their own
+              <b>Autoplay only</b> · no story; the storefront checkout, agent flows and calls you start type and click on their own
             </span>
           </label>
         </footer>

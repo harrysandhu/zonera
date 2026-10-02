@@ -2,7 +2,7 @@ import { useSyncExternalStore } from "react";
 import { activity, go, movie, nav, setCallsOpen, setMovie } from "../state/store";
 import { abort, activeSession, agent, ghostHide, ghostMove, ghostPress, isBusy, isHome, type Session } from "../agent/engine";
 import { askIn, launch } from "../agent/controller";
-import { calls, rings } from "../calls/engine";
+import { releaseCalls, rings } from "../calls/engine";
 
 // The movie director: plays a story (chapters of scripted beats) across the
 // dashboard, agent mode and the call center with a visible cursor and
@@ -244,13 +244,6 @@ export function openLauncher(open = true) {
   bump();
 }
 
-/** The demo has been used since load: a clean take needs a reload. */
-export function isDirty() {
-  // Background calls log as they play; anything else means someone used the demo.
-  const fresh = activity.slice(0, Math.max(0, activity.length - SEEDED));
-  return agent.sessions.some(s => s.items.length > 0) || fresh.some(a => !["call", "alert", "gate", "lead"].includes(a.kind)) || !!callsTouched();
-}
-const callsTouched = () => calls.some(c => c.script.id === "dana-lien" || c.tookOver);
 let SEEDED = Infinity;
 export function markSeeded() {
   SEEDED = activity.length;
@@ -262,9 +255,17 @@ export function taken() {
 
 const KEY = "zonera-movie-start";
 
-/** Play a story from a chapter. Films reload first when the demo isn't fresh, so every take starts clean. */
+// A film is about to resume after its clean reload: hold the call center's
+// morning calls before anything starts them.
+try {
+  if (sessionStorage.getItem(KEY)) rings.hold = true;
+} catch {
+  /* no storage */
+}
+
+/** Play a story from a chapter. Films reload first so every take starts clean. */
 export function play(story: Story, from = 0, opts: { clean?: boolean } = {}) {
-  if (story.kind === "film" && opts.clean !== false && isDirty()) {
+  if (story.kind === "film" && opts.clean !== false) {
     try {
       sessionStorage.setItem(KEY, JSON.stringify({ id: story.id, from }));
       location.reload();
@@ -357,7 +358,7 @@ export function finish() {
   if (s && isBusy(s)) abort(s.id);
   director.story = null;
   director.status = "idle";
-  rings.hold = false;
+  releaseCalls();
   ghostHide();
   document.documentElement.classList.remove("mv-on");
   if (movie.on !== director.prevMovie) setMovie(director.prevMovie);

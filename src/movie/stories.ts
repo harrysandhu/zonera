@@ -1,5 +1,5 @@
 import { go, nav } from "../state/store";
-import { callById, liveCalls, ringNow } from "../calls/engine";
+import { callById, liveCalls, openCall, ringNow, startLiveCalls } from "../calls/engine";
 import { DANA } from "../calls/scripts";
 import type { Chapter, Story } from "./director";
 
@@ -91,6 +91,8 @@ const film: Chapter[] = [
     title: "Every call answered",
     body: "Zonera Voice is on three calls right now. Priya can listen in, whisper a hint, or take over at any point.",
     async beats(d) {
+      startLiveCalls();
+      await d.wait(600);
       await d.openCalls();
       await d.wait(1800);
       if (!(await d.callRow("Leila"))) await d.callRow(liveCalls()[0]?.name ?? "");
@@ -105,8 +107,9 @@ const film: Chapter[] = [
     body: "Dana got a lien letter while she was in the hospital. Zonera Voice calms her down, then brings Priya in: pausing a sale needs a manager.",
     async beats(d) {
       const id = ringNow("dana-lien");
-      await d.wait(1200);
-      if (id) await d.callRow("Dana");
+      await d.wait(1600);
+      // The ringing pill in the top bar jumps straight to the incoming call.
+      if (!(await d.click(".cc-pill--ring", { optional: true })) && id) openCall(id);
       await d.until(() => {
         const c = callById(id);
         return DANA.resolved || !c || c.status === "ended" || c.status === "wrap";
@@ -164,7 +167,7 @@ function chain(id: string, title: string, sub: string, steps: { title: string; t
     sub,
     chapters: steps.map((s, i) => ({
       id: `${id}-${i}`,
-      kicker: `${title} · ${i + 1} of ${steps.length}`,
+      kicker: title,
       title: s.title,
       body: s.body,
       beats: d => (i === 0 ? d.ask(s.text, { newTab: true }) : d.chip(s.text)),

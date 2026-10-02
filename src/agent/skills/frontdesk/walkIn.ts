@@ -3,6 +3,7 @@ import { kw } from "../../parse";
 import { money, moveIn, nextCode, round2, sizeLabel } from "../../data";
 import { availableUnits, FACILITY, type UnitSize } from "../../../data/facility";
 import { PROTECTION, ADMIN_FEE } from "../../../data/catalog";
+import { clock } from "../../../state/store";
 
 // #1 Walk-in move-in: pick the unit on the twin, protection, prorated charge,
 // lease e-signed at the counter, gate code. Everything in one conversation.
@@ -91,7 +92,7 @@ export default defineSkill<{ who: string; size: UnitSize }>({
       h.update({ cards: [{ ...card, steps: [...card.steps] }] });
       await ctx.wait(550);
       card.steps[i].state = "done" as any;
-      if (i === 1) card.steps[i].value = "9:52 am";
+      if (i === 1) card.steps[i].value = clock();
       if (i === 3) card.steps[i].value = code + "#";
     }
     h.update({ cards: [{ ...card, steps: [...card.steps], total: `${money(pay.amount)} paid · ${money(unit.rate + protPrice)}/mo` }], summary: `${first} is moved in` });

@@ -37,11 +37,11 @@
 
 /* ------------------------------------------------------------------ tabs */
 .ag-tabs { display: flex; align-items: flex-end; gap: 2px; padding: 6px 8px 0; border-bottom: 1px solid var(--line); overflow-x: auto; flex: none; scrollbar-width: none; }
-.ag-tab { display: flex; align-items: center; gap: 7px; height: 32px; padding: 0 6px 0 10px; border-radius: 8px 8px 0 0; font-size: 12.5px; color: var(--ink-3); cursor: pointer; white-space: nowrap; max-width: 230px; border: 1px solid transparent; border-bottom: 0; margin-bottom: -1px; }
-.ag-tab > span:nth-child(2) { overflow: hidden; text-overflow: ellipsis; }
+.ag-tab { display: flex; align-items: center; gap: 7px; height: 32px; padding: 0 6px 0 10px; border-radius: 8px 8px 0 0; font-size: 12.5px; color: var(--ink-3); cursor: pointer; white-space: nowrap; max-width: 230px; flex: 0 1 auto; min-width: 72px; border: 1px solid transparent; border-bottom: 0; margin-bottom: -1px; }
+.ag-tab > span:nth-child(2) { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 .ag-tab:hover { color: var(--ink); }
-.ag-tab.is-on { color: var(--ink); background: var(--surface); border-color: var(--line); font-weight: 500; }
-.ag-tab-x { border: 0; background: transparent; color: var(--ink-3); width: 20px; height: 20px; border-radius: 5px; display: grid; place-items: center; opacity: .55; }
+.ag-tab.is-on { flex-shrink: 0; color: var(--ink); background: var(--surface); border-color: var(--line); font-weight: 500; }
+.ag-tab-x { flex: none; border: 0; background: transparent; color: var(--ink-3); width: 20px; height: 20px; border-radius: 5px; display: grid; place-items: center; opacity: .55; }
 .ag-tab-x:hover { background: var(--surface-3); opacity: 1; }
 .ag-tab-new { border: 0; background: transparent; width: 28px; height: 28px; margin-bottom: 2px; border-radius: 7px; display: grid; place-items: center; color: var(--ink-3); flex: none; }
 .ag-tab-new:hover { background: var(--surface-3); color: var(--ink); }
@@ -360,8 +360,8 @@
 .ag-ans-l ul { list-style: none; margin: 0; padding: 0; display: grid; }
 .ag-ans-l li { display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 5px 8px 5px 12px; border-bottom: 1px solid var(--line); font-size: 13px; }
 .ag-ans-l li:last-child { border-bottom: 0; }
-.ag-ans-li { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.ag-ans-lm { font: 500 12px var(--f-mono); color: var(--ink-2); }
+.ag-ans-li { flex: 1; min-width: 0; line-height: 1.45; padding: 4px 0; text-wrap: pretty; }
+.ag-ans-lm { font: 500 12px var(--f-mono); color: var(--ink-2); flex: none; max-width: 45%; text-align: right; }
 .ag-ans-links { display: flex; gap: 14px; flex-wrap: wrap; }
 
 /* W12 DataTable */

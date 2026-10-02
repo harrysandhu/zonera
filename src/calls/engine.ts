@@ -512,12 +512,45 @@ export function ensureStarted() {
   if (ui.started) return;
   ui.started = true;
   ui.startedAt = Date.now();
-  startLive(SCRIPTS["matthew-gate"]);
-  startLive(SCRIPTS["grace-autopay"]);
-  startLive(SCRIPTS["leila-inbound"]);
+  // A movie story holds the morning's calls until its call-center scene.
+  if (rings.hold) {
+    deferred = true;
+    bump();
+    return;
+  }
+  startMorning();
+}
+
+const MORNING = ["matthew-gate", "grace-autopay", "leila-inbound"];
+let deferred = false;
+
+function startMorning() {
+  for (const id of MORNING) startLive(SCRIPTS[id]);
   setTimeout(() => ringOnce("dana-lien"), 40000);
   setTimeout(() => ringOnce("price-shopper"), 150000);
   bump();
+}
+
+/** Movie cue: put the morning's live calls on the line now. */
+export function startLiveCalls() {
+  ensureStarted();
+  if (deferred) {
+    deferred = false;
+    for (const id of MORNING) startLive(SCRIPTS[id]);
+  } else if (liveCalls().filter(c => c.status === "live").length < 2) {
+    // They already played out (a retake): start fresh ones so the scene has calls.
+    for (const id of MORNING) if (!calls.some(c => c.script.id === id && !dead(c))) startLive(SCRIPTS[id]);
+  }
+  bump();
+}
+
+/** The story ended: whatever it held starts as usual. */
+export function releaseCalls() {
+  rings.hold = false;
+  if (deferred) {
+    deferred = false;
+    startMorning();
+  }
 }
 
 /** While a movie story plays, scheduled inbound calls wait for their cue. */

@@ -242,6 +242,12 @@ The key (`refund`) is the type you pass to `ctx.ask("refund", props, auto)`; pro
 
 Workspace features owned by the engine maintainer: session tabs, rail (lists `featured` skills by category + recent sessions), context panel (3D twin from `ctx.focus`, entity cards, Actions taken with Undo), composer (`/` commands from skill titles, attachments `alder-lake-site-plan.pdf` / `rent-roll-sept.csv`, voice mode), home state, movie mode, `askAgent()` / ⌘K hand-off.
 
-## 4. Test your skill
+## 4. Next-step chips must route
+
+`ctx.suggest` strings, home-screen prompts and every dashboard `askAgent()` prompt must reach a real skill. `node scripts/route-check.mjs` checks all skill examples plus `scripts/prompts.txt` (`prompt` = must not fall back, `prompt => skill.id` = must route there). Add your chips there. The engine drops a chip identical to the prompt just answered.
+
+Movie scripts may name outcomes (`"approve"`, `"call"`, `"confirm"`): they resolve to the widget's `submit` button, and if a script ends with the widget still waiting the engine presses `submit` so a film never stalls.
+
+## 5. Test your skill
 
 Open `http://127.0.0.1:5173/#ops-agent`, type each example prompt, answer every widget, then check the effect landed on the relevant operator page. Turn on Movie mode and run the canonical prompt from the rail: it must play end to end without a click. `npx tsc --noEmit` must pass.
