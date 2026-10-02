@@ -24,16 +24,17 @@ Vite + React 18 + TypeScript, vanilla Three.js (r159) wrapped by `src/three/Faci
 
 Stay inside your directory. Import your stylesheet from your own entry component. If you need a change in a shared file, say so in your report instead of editing it.
 
-## Visual rules
+## Visual rules (v2 — modern AI SaaS)
 
-- **Tokens only.** Every color comes from `src/styles/tokens.css` (`--ink`, `--surface`, `--line`, `--lake`, `--apricot`, `--ok/warn/bad/info/violet` and their `-soft` variants …). Never a literal color in area CSS, except the HUD (`--hud-*`) and the 3D scene. Both light and dark themes must read well; test both.
-- **Apricot means "your unit / the thing to act on".** Use it sparingly: the selected unit, the primary call to action on the storefront, the agent's own accent. Primary buttons elsewhere are ink (`.z-btn--primary`).
-- **Type:** `--f-ui` (Instrument Sans) for everything; `--f-display` (Fraunces, class `.display`) only for large moments (page heroes, big numbers, storefront headings); `--f-mono` (JetBrains Mono) for unit ids, gate codes, tool names, telemetry. Sentence case everywhere. 13–14px UI body, 11.5–12px labels.
-- **Shapes:** radii `--r-xs/s/m/l`. Cards (`.z-card`) only where something is a separate object. Use layout gap, not margins between siblings.
-- **Status** is encoded in form, not just text: `UnitStatusPill`, `Pill tone`, `StatusSwatch` (colors match the 3D doors via `STATUS_COLORS`).
-- **Motion:** purposeful. Agent output streams in; widgets rise in (`z-rise`); state changes animate once. Respect `prefers-reduced-motion` (base.css already clamps).
-- **No emoji, no lorem ipsum.** Real names, real units (A-122, D-209), real money.
-- **Copy voice:** plain, specific, active. Buttons say what happens ("Record payment", "Send code"). The agent speaks like a sharp facility manager: short sentences, numbers first, never gushing.
+References: The General Intelligence Company of New York and The Browser Company (Dia). Neutral paper and ink, Geist + Geist Mono, one pure blue, plain product copy. **The current reference screen is the Overview page (`src/ops/pages/OverviewPage.tsx`).** Match it.
+
+- **Type:** Geist for everything (`--f-ui`, `--f-display` both Geist). Page titles 21px/600/−0.028em; section titles 13px/550; body 13–14px; stat numbers 24px/550/−0.035em. **Geist Mono** (`--f-mono`, `.eyebrow`, `.mono`) for small labels, ids (A-126), codes, deltas, chart ticks, timestamps. No serif anywhere. Sentence case.
+- **Color:** tokens only (`src/styles/tokens.css`). Ink/paper/surfaces are neutral with a faint green-grey cast. **One accent: blue `--accent`** for selection, the agent, links, the primary chart series, and "your unit". No yellow, orange, apricot or gradients. Status colors (ok/warn/bad/violet) only for state. Legacy names `--apricot`/`--lake` now alias the blue.
+- **Surfaces:** the page sits in an inset white panel; sections are bordered (1px `--line`), radius 12px, no shadows except tiny `--shadow-s` on buttons. KPI rows are one bordered strip divided by hairlines (`StatRow`).
+- **Controls:** 32px buttons (28px small), radius 8px, primary = ink; chips 28px radius 7px; pills 20px radius 6px.
+- **3D:** clay look (white massing, grey ground, grey doors), status colors on doors in ops mode, blue for selection/available/route.
+- **Copy:** modern AI-SaaS. Plain, confident, specific ("3 things need you today", "Rent a unit in two minutes", "Self-storage software that runs itself"). No slogans, no "Just ask.", no poetry, no exclamation marks, no emoji.
+- **Motion:** quiet. Streams in, widgets rise 6–8px once. Respect reduced motion.
 
 ## Shared APIs (src/state/store.ts)
 

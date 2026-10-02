@@ -10,14 +10,14 @@ import "../styles/brand.css";
 // color, type, world, 3D language, voice, motion, and how the art was made.
 
 const COLORS = [
-  { name: "Ink", hex: "#16202B", role: "Text, primary buttons, the wordmark on paper", token: "--ink" },
-  { name: "Sky ink", hex: "#1E2A47", role: "The wordmark on the painted sky only", token: "plate" },
-  { name: "Paper", hex: "#FBFBF8", role: "Interface ground", token: "--paper" },
-  { name: "Mist", hex: "#F2F4F1", role: "Quiet surfaces, wells, hover", token: "--surface-2" },
-  { name: "Lake", hex: "#2B6DB3", role: "Links, focus, data; the painted water", token: "--lake" },
-  { name: "Pine", hex: "#2F5546", role: "The painted forest; never a button", token: "--pine" },
-  { name: "Meadow", hex: "#EFD27C", role: "Warm light in illustration", token: "--butter" },
-  { name: "Apricot", hex: "#EE9B5B", role: "Your unit. The door you're about to open", token: "--apricot" },
+  { name: "Ink", hex: "#1D1F1D", role: "Text, primary buttons, the wordmark", token: "--ink" },
+  { name: "Paper", hex: "#F8F9F7", role: "App background and sidebar", token: "--paper" },
+  { name: "Surface", hex: "#FFFFFF", role: "Panels, cards, inputs", token: "--surface" },
+  { name: "Mist", hex: "#F2F4F1", role: "Wells, hover, quiet fills", token: "--surface-2" },
+  { name: "Graphite", hex: "#5E625E", role: "Secondary text", token: "--ink-2" },
+  { name: "Accent", hex: "#0358F7", role: "Selection, the agent, links, your unit", token: "--accent" },
+  { name: "Success", hex: "#15803D", role: "Paid, available, done", token: "--ok" },
+  { name: "Danger", hex: "#D92D20", role: "Overlocked, failed, overdue", token: "--bad" },
 ];
 
 const VOICE = [
@@ -58,20 +58,23 @@ export function BrandPage() {
       </header>
 
       <section className="br-plate">
-        <img src={HERO.identity} srcSet={`${HERO.identitySmall} 1280w, ${HERO.identity} 2400w`} sizes="100vw" alt="Painted lakeside landscape with a small self-storage facility, the word zonera and the line Just ask. in the sky" />
+        <img src={HERO.clean} srcSet={`${HERO.small} 1280w, ${HERO.clean} 2400w`} sizes="100vw" alt="Painted lakeside landscape with a small self-storage facility" />
+        <div className="br-plate-t">
+          <Wordmark size={120} color="#111211" />
+          <p>Self-storage software that runs itself.</p>
+        </div>
       </section>
 
       <section className="br-sec br-idea" id="br-idea">
         <div className="br-label">The idea</div>
         <div className="br-body">
-          <h2 className="br-h2">Just ask.</h2>
+          <h2 className="br-h2">Self-storage software that runs itself.</h2>
           <p className="br-lede">
             Every storage system on the market is a database with forms on top, and you learn its screens before you can run your facility. Zonera is the first one you can simply talk to. The renter asks for a space; the manager asks for an outcome. The
             agent does the work and only stops to ask what a person should decide.
           </p>
           <p className="br-p">
-            The world around it should feel like a good morning: a lake, a meadow, mountains in the haze, and somewhere in it, a calm, well-kept place to put your things. Storage is the most stressful kind of errand. The brand's job is to make it feel like the
-            easiest one.
+            One agent runs the front desk, the books, the gate and the phones. The operator watches, approves what matters, and takes over when they want to.
           </p>
           <div className="br-pillars">
             <div>
@@ -83,8 +86,8 @@ export function BrandPage() {
               <span>Widgets appear only when a human should choose.</span>
             </div>
             <div>
-              <b>Your door</b>
-              <span>Apricot always means the unit you're about to open.</span>
+              <b>Every action logged</b>
+              <span>The agent asks before money or access changes, and shows its work.</span>
             </div>
           </div>
         </div>
@@ -98,8 +101,7 @@ export function BrandPage() {
               <Wordmark size={84} />
             </div>
             <div className="br-sign br-sign--sky" style={{ backgroundImage: `url(${HERO.small})` }}>
-              <Wordmark size={84} color="#1E2A47" />
-              <span className="br-sign-line">Just ask.</span>
+              <Wordmark size={84} color="#111211" />
             </div>
             <div className="br-sign br-sign--ink">
               <Wordmark size={84} color="#FBFBF8" />
@@ -108,7 +110,7 @@ export function BrandPage() {
           <div className="br-grid3">
             <div>
               <h3 className="br-h3">Wordmark</h3>
-              <p className="br-p">Lowercase <span className="mono">zonera</span> in Fraunces at weight 560, softness 100, optical size 96, tracking −3.5%. Six letters, no capital, no period. Ink on paper, sky ink on the painting, paper on ink.</p>
+              <p className="br-p">Lowercase <span className="mono">zonera</span> in Geist at weight 620, tracking −5.5%. Six letters, no capital, no period. Ink on paper and on the painted sky, paper on ink.</p>
             </div>
             <div>
               <h3 className="br-h3">Mark</h3>
@@ -117,7 +119,7 @@ export function BrandPage() {
                 <Mark size={32} />
                 <Mark size={20} />
               </div>
-              <p className="br-p">A roll-up door in a rounded square — the one object every storage customer recognises. Used for app icons, favicons and the sidebar.</p>
+              <p className="br-p">A Z cut from a rounded square. Monochrome, always. Used for app icons, favicons and the sidebar.</p>
             </div>
             <div>
               <h3 className="br-h3">Clear space and size</h3>
@@ -130,7 +132,7 @@ export function BrandPage() {
       <section className="br-sec" id="br-color">
         <div className="br-label">Color</div>
         <div className="br-body">
-          <p className="br-p br-p--wide">Ink and paper run the interface. Lake, pine and meadow belong to the painting. Apricot is rationed: it marks the selected unit, the storefront's main action and the agent's own accent. Semantic colors (success, warning, danger) stay separate from the brand.</p>
+          <p className="br-p br-p--wide">Neutral paper and ink with a faint green-grey cast, and one blue. Blue marks what is selected, what the agent is doing and the unit that is yours. Success and danger are for state only. No gradients, no warm accents.</p>
           <div className="br-swatches">
             {COLORS.map(c => (
               <button key={c.name} className="br-swatch" onClick={() => copy(c.hex)} aria-label={`Copy ${c.name} ${c.hex}`}>
@@ -153,28 +155,28 @@ export function BrandPage() {
           <div className="br-spec">
             <div className="br-spec-h">
               <span>Display</span>
-              <span className="mono">Fraunces · 520 · soft 100</span>
+              <span className="mono">Geist · 600 · −3.5%</span>
             </div>
-            <div className="br-spec-big display">Room for what matters.</div>
-            <p className="br-p">Heroes, page titles, big numbers. Used with restraint; never for running text or controls.</p>
+            <div className="br-spec-big">Rent a unit in two minutes.</div>
+            <p className="br-p">Headlines and big numbers. Tight tracking, never all caps.</p>
           </div>
           <div className="br-spec">
             <div className="br-spec-h">
               <span>Interface</span>
-              <span className="mono">Instrument Sans · 400–650</span>
+              <span className="mono">Geist · 400–600</span>
             </div>
             <div className="br-spec-mid">Matthew Okafor paid $240.00 in cash. A-122 is unlocked.</div>
-            <p className="br-p">Everything people read and operate: 14px body, 12px labels, sentence case.</p>
+            <p className="br-p">Everything people read and operate: 13–14px, sentence case.</p>
           </div>
           <div className="br-spec">
             <div className="br-spec-h">
-              <span>Codes and data</span>
-              <span className="mono">JetBrains Mono · 400–600</span>
+              <span>Labels, codes and data</span>
+              <span className="mono">Geist Mono · 400–600</span>
             </div>
             <div className="br-spec-code">
               A-126 · <span>4827#</span> · gate.codes.create()
             </div>
-            <p className="br-p">Unit ids, gate codes, tool names and telemetry — things people copy or read aloud.</p>
+            <p className="br-p">Unit ids, gate codes, tool names, deltas, timestamps and small uppercase labels.</p>
           </div>
           <div className="br-spec">
             <div className="br-spec-h">
@@ -182,7 +184,7 @@ export function BrandPage() {
               <span className="mono">Homemade Apple</span>
             </div>
             <div className="br-spec-sign">Maya Chen</div>
-            <p className="br-p">Only where a person signs: leases, addenda, receipts.</p>
+            <p className="br-p">Only where a person signs: leases and addenda.</p>
           </div>
         </div>
       </section>
@@ -196,8 +198,8 @@ export function BrandPage() {
               <figcaption>The production plate. The sky between 22% and 78% of the width is kept empty for live type.</figcaption>
             </figure>
             <div className="br-world-r">
-              <h3 className="br-h3">Painted, not rendered</h3>
-              <p className="br-p">Hand-painted Japanese-animation background technique in opaque gouache: flat confident shapes, crisp near edges, soft washes only in sky and distance. Late-morning sun from the upper left, cool blue-violet shadows, neutral white balance.</p>
+              <h3 className="br-h3">Imagery, used sparingly</h3>
+              <p className="br-p">One painted landscape, used as atmosphere on the storefront and in marketing. The product itself stays neutral; the painting never sits behind data or controls.</p>
               <h3 className="br-h3">The facility is in the scenery</h3>
               <p className="br-p">It sits in the lower middle, never the hero. Long low rows, a continuous rhythm of peach-coral roll-up doors, a timber building at the gate, hedges instead of chain-link. No signs, no unit numbers, no orange.</p>
               <h3 className="br-h3">Never</h3>
@@ -224,7 +226,7 @@ export function BrandPage() {
           <div className="br-grid3">
             <div>
               <h3 className="br-h3">Storefront diorama</h3>
-              <p className="br-p">The same facility, built from its site plan: cream walls, slate roofs, apricot doors. Your unit gets a beam and a ring.</p>
+              <p className="br-p">The same facility, built from its site plan as a white clay model. Your unit gets a blue beam and a ring.</p>
             </div>
             <div>
               <h3 className="br-h3">Operator twin</h3>
@@ -232,7 +234,7 @@ export function BrandPage() {
             </div>
             <div>
               <h3 className="br-h3">Route film</h3>
-              <p className="br-p">After checkout, dark glass and cyan lines: a car drives from the gate to your door, on a loop, with turn-by-turn callouts.</p>
+              <p className="br-p">After checkout, a dark map with blue lines: a car drives from the gate to your door, on a loop, with turn-by-turn callouts.</p>
             </div>
           </div>
         </div>
@@ -241,7 +243,7 @@ export function BrandPage() {
       <section className="br-sec" id="br-voice">
         <div className="br-label">Voice</div>
         <div className="br-body">
-          <p className="br-p br-p--wide">The agent talks like a sharp facility manager: short sentences, numbers first, the person's name and unit, never gushing. It asks only what it needs, confirms before money or access changes, and says plainly what it did.</p>
+          <p className="br-p br-p--wide">Plain and specific, like the best AI products: numbers first, the person's name and unit, no slogans. The agent asks only what it needs, confirms before money or access changes, and says plainly what it did.</p>
           <div className="br-voice">
             {VOICE.map(v => (
               <div key={v.moment} className="br-voice-row">
@@ -290,7 +292,7 @@ export function BrandPage() {
             </li>
             <li>
               <b>Generate</b>
-              <span>Two cool variants and one warm variant with the SF reference; the three-row cool plate was chosen, then the identity plate was edited from it at high quality.</span>
+              <span>Two cool variants and one warm variant with the SF reference; the three-row cool plate was chosen. Type is always set live in Geist, never baked into the image.</span>
             </li>
           </ol>
           <div className="br-explore">
@@ -299,8 +301,8 @@ export function BrandPage() {
               <figcaption>Selected · three rows, curved drive</figcaption>
             </figure>
             <figure>
-              <img src={HERO.identitySmall} alt="Identity plate" />
-              <figcaption>Identity plate · edit of the selected plate</figcaption>
+              <img src="img/hero-1280.webp" alt="Selected plate" style={{ objectPosition: "50% 80%" }} />
+              <figcaption>Production crop · facility and drive</figcaption>
             </figure>
           </div>
         </div>

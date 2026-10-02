@@ -18,7 +18,7 @@ This repository is the **chassis of the car**: a fully designed, clickable demo 
 
 ## Storefront
 
-1. **Hero:** the painted plate, live wordmark, one input: *What are you storing?*
+1. **Hero:** the painted plate as a quiet backdrop, a plain headline, one input: *What are you storing?*
 2. **Size finder:** presets (studio, one-bedroom, seasonal gear, house, business) or item counts → cubic feet × 1.25 for aisle space → recommended size with a fill meter. The 3D facility diorama lights up every available unit of that size.
 3. **Sizes:** six painted unit cutaways (5×5 to 10×30) plus RV/boat parking, with live availability and price.
 4. **Checkout** (split screen): left, the isometric facility flies to *your* unit (beam, ring, label); right, a typeform-style flow, one question per screen, Enter to continue: move-in date → how long → name → contact → protection plan → billing plan → ID check → payment → plain-language lease summary + e-signature.
@@ -64,7 +64,7 @@ Each operation is a scripted session: user message → thinking → tool calls (
 
 ## Brand
 
-Painted Japanese-animation landscape (gouache, lake, mountains, meadow) with a small, lovely self-storage facility in it. Wordmark **zonera** in a soft serif, ink on sky. Line: **Just ask.** Apricot/peach-coral is reserved for *your unit*: the door you're about to open. Prompt debate and generation log live in `brand/prompts/`.
+Modern AI-SaaS identity in the vein of The General Intelligence Company of New York and The Browser Company: neutral paper and ink, Geist and Geist Mono, one blue accent, plain product language. The painted lakeside plate (no text) is used as atmospheric imagery on the storefront and brand page only. Wordmark: lowercase **zonera** set in Geist; mark: a Z monogram. Prompt debate and generation log live in `brand/prompts/`.
 
 ## Engine (next)
 

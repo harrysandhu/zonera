@@ -76,8 +76,8 @@ export function OpsShell() {
     <div className={`os ${nav.callsOpen ? "os--calls" : ""} ${menu ? "os--menu" : ""}`} data-page={page}>
       <aside className="os-side" aria-label="Main">
         <div className="os-brand">
-          <Mark size={26} />
-          <Wordmark size={23} />
+          <Mark size={22} />
+          <Wordmark size={19} />
         </div>
         <button className="os-fac" onClick={() => setFacOpen(o => !o)} aria-expanded={facOpen}>
           <span className="os-fac-thumb" aria-hidden style={{ backgroundImage: `url(${HERO.small})` }} />
@@ -140,13 +140,19 @@ export function OpsShell() {
             <Menu />
           </button>
           <div className="os-title">
-            {item?.icon}
+            <span className="os-crumb-fac">{FACILITY.short}</span>
+            <span className="os-sep">/</span>
             <span>{item?.label ?? "Overview"}</span>
-            {id && <span className="os-crumb">/ {id}</span>}
+            {id && (
+              <>
+                <span className="os-sep">/</span>
+                <span className="os-crumb">{id}</span>
+              </>
+            )}
           </div>
           <button className="os-ask" onClick={() => setPalette(true)}>
-            <Sparkles size={15} />
-            <span>Ask Zonera to do anything…</span>
+            <Sparkles size={14} />
+            <span>Ask Zonera…</span>
             <span className="z-kbd">⌘K</span>
           </button>
           <div className="os-top-r">

@@ -172,13 +172,12 @@ export function Wordmark({ size = 28, className = "", color }: { size?: number; 
   );
 }
 
-/** The mark: a roll-up door inside a rounded square — the brand's one recurring object. */
+/** The mark: a Z monogram cut from a rounded square. Monochrome. */
 export function Mark({ size = 28, className = "" }: { size?: number; className?: string }) {
   return (
     <svg className={className} width={size} height={size} viewBox="0 0 32 32" aria-hidden>
-      <rect x="1" y="1" width="30" height="30" rx="9" fill="var(--ink)" />
-      <rect x="8" y="9" width="16" height="15" rx="2" fill="var(--apricot)" />
-      <path d="M8 13.5h16M8 17h16M8 20.5h16" stroke="var(--ink)" strokeOpacity=".28" strokeWidth="1.2" />
+      <rect x="0" y="0" width="32" height="32" rx="8" fill="var(--ink)" />
+      <path d="M9 9.5h14v3.2L14.6 19.3H23v3.2H9v-3.2l8.4-6.6H9z" fill="var(--paper)" />
     </svg>
   );
 }
@@ -188,7 +187,7 @@ const TOAST_ICON: Record<NonNullable<Toast["tone"]>, React.ReactNode> = {
   info: <Info color="var(--info)" />,
   warn: <AlertTriangle color="var(--warn)" />,
   bad: <CircleAlert color="var(--bad)" />,
-  call: <PhoneCall color="var(--apricot-ink)" />,
+  call: <PhoneCall color="var(--accent)" />,
 };
 
 export function Toasts() {

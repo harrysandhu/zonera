@@ -136,22 +136,24 @@ export function tenureMonths(t: Tenant) {
 
 // ---- Money, months, activity -----------------------------------------------
 
+// Collected revenue (rent + protection + fees) and month-end occupancy.
+// Sep 2026 lines up with the live rent roll (~$30.5k rent + ~$2.5k protection + fees).
 export const MONTHLY = [
-  { m: "Oct", y: 2025, revenue: 71840, occupancy: 0.861, moveIns: 29, moveOuts: 24 },
-  { m: "Nov", y: 2025, revenue: 72310, occupancy: 0.858, moveIns: 22, moveOuts: 25 },
-  { m: "Dec", y: 2025, revenue: 72950, occupancy: 0.852, moveIns: 18, moveOuts: 22 },
-  { m: "Jan", y: 2026, revenue: 73480, occupancy: 0.849, moveIns: 24, moveOuts: 23 },
-  { m: "Feb", y: 2026, revenue: 74120, occupancy: 0.856, moveIns: 27, moveOuts: 20 },
-  { m: "Mar", y: 2026, revenue: 75660, occupancy: 0.868, moveIns: 33, moveOuts: 21 },
-  { m: "Apr", y: 2026, revenue: 77210, occupancy: 0.879, moveIns: 35, moveOuts: 23 },
-  { m: "May", y: 2026, revenue: 79040, occupancy: 0.891, moveIns: 41, moveOuts: 26 },
-  { m: "Jun", y: 2026, revenue: 80980, occupancy: 0.902, moveIns: 44, moveOuts: 30 },
-  { m: "Jul", y: 2026, revenue: 82150, occupancy: 0.909, moveIns: 39, moveOuts: 33 },
-  { m: "Aug", y: 2026, revenue: 83020, occupancy: 0.911, moveIns: 36, moveOuts: 34 },
-  { m: "Sep", y: 2026, revenue: 84210, occupancy: 0.906, moveIns: 31, moveOuts: 29 },
+  { m: "Oct", y: 2025, revenue: 28310, occupancy: 0.842, moveIns: 11, moveOuts: 9 },
+  { m: "Nov", y: 2025, revenue: 28480, occupancy: 0.839, moveIns: 8, moveOuts: 9 },
+  { m: "Dec", y: 2025, revenue: 28620, occupancy: 0.835, moveIns: 6, moveOuts: 8 },
+  { m: "Jan", y: 2026, revenue: 28890, occupancy: 0.832, moveIns: 9, moveOuts: 9 },
+  { m: "Feb", y: 2026, revenue: 29240, occupancy: 0.838, moveIns: 10, moveOuts: 7 },
+  { m: "Mar", y: 2026, revenue: 29870, occupancy: 0.848, moveIns: 13, moveOuts: 8 },
+  { m: "Apr", y: 2026, revenue: 30560, occupancy: 0.856, moveIns: 14, moveOuts: 9 },
+  { m: "May", y: 2026, revenue: 31240, occupancy: 0.864, moveIns: 16, moveOuts: 10 },
+  { m: "Jun", y: 2026, revenue: 31980, occupancy: 0.871, moveIns: 17, moveOuts: 12 },
+  { m: "Jul", y: 2026, revenue: 32540, occupancy: 0.876, moveIns: 15, moveOuts: 13 },
+  { m: "Aug", y: 2026, revenue: 32960, occupancy: 0.879, moveIns: 13, moveOuts: 12 },
+  { m: "Sep", y: 2026, revenue: 33420, occupancy: 0.883, moveIns: 12, moveOuts: 11 },
 ];
 
-export const SEPT_LAST_YEAR = { revenue: 70420, occupancy: 0.853, moveIns: 26, moveOuts: 27, delinquency: 0.061 };
+export const SEPT_LAST_YEAR = { revenue: 27940, occupancy: 0.838, moveIns: 10, moveOuts: 11, delinquency: 0.061 };
 
 export interface FeedItem { t: string; kind: "gate" | "payment" | "agent" | "movein" | "alert" | "lead"; text: string; who?: string }
 

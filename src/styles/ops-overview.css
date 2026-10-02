@@ -1,0 +1,56 @@
+/* Overview page (prefix ov-). */
+.ov-brief { border: 1px solid var(--line); border-radius: var(--r-l); background: var(--surface); overflow: hidden; }
+.ov-brief-h { display: flex; align-items: center; gap: 12px; padding: 12px 12px 12px 16px; }
+.ov-brief-h > div { flex: 1; min-width: 0; display: grid; }
+.ov-brief-h b { font-size: 13.5px; font-weight: 600; letter-spacing: -0.01em; }
+.ov-brief-h span:not(.ov-brief-ic) { font-size: 12.5px; color: var(--ink-3); }
+.ov-brief-ic { width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; flex: none; background: var(--accent-soft); color: var(--accent); }
+.ov-brief-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.ov-brief-list li { display: flex; align-items: center; gap: 12px; padding: 10px 12px 10px 16px; border-bottom: 1px solid var(--line); }
+.ov-brief-list li:last-child { border-bottom: 0; }
+.ov-brief-list p { flex: 1; min-width: 0; font-size: 13px; color: var(--ink-2); }
+.ov-brief-list b { color: var(--ink); font-weight: 550; }
+.ov-brief-li { width: 28px; display: grid; place-items: center; color: var(--ink-3); flex: none; }
+.ov-brief-li svg { width: 15px; height: 15px; }
+
+.ov-grid { display: grid; gap: 16px; }
+.ov-grid--charts { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); }
+.ov-grid--three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.ov-legend { font-size: 12px; color: var(--ink-3); font-family: var(--f-mono); }
+.ov-note { margin-top: 14px; font-size: 12.5px; color: var(--ink-3); }
+
+.ov-today { list-style: none; margin: 0; padding: 0; display: grid; }
+.ov-today li { display: grid; grid-template-columns: 62px 14px minmax(0, 1fr); align-items: start; gap: 8px; padding: 8px 0; position: relative; }
+.ov-today li:not(:last-child)::after { content: ""; position: absolute; left: 76px; top: 24px; bottom: -8px; width: 1px; background: var(--line-2); }
+.ov-today-t { font-size: 11.5px; color: var(--ink-3); padding-top: 1px; }
+.ov-today-dot { width: 7px; height: 7px; border-radius: 50%; margin: 6px 0 0 3px; background: var(--surface); box-shadow: 0 0 0 1.5px var(--ink-3); }
+.ov-today li.done .ov-today-dot { background: var(--accent); box-shadow: 0 0 0 1.5px var(--accent); }
+.ov-today b { display: block; font-size: 13px; font-weight: 500; }
+.ov-today div span { font-size: 12px; color: var(--ink-3); }
+.ov-today li.done b { color: var(--ink-2); }
+
+.ov-feed { list-style: none; margin: 0; padding: 0; display: grid; }
+.ov-feed li { display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; gap: 10px; align-items: start; padding: 7px 0; }
+.ov-feed p { font-size: 12.5px; color: var(--ink-2); line-height: 1.45; }
+.ov-feed-ic { width: 24px; height: 24px; border-radius: 7px; display: grid; place-items: center; background: var(--surface-2); color: var(--ink-3); }
+.ov-feed-ic svg { width: 13px; height: 13px; }
+.ov-feed-ic--agent { background: var(--accent-soft); color: var(--accent); }
+.ov-feed-t { font-size: 11px; color: var(--ink-3); padding-top: 4px; }
+
+.ov-twin-b { display: grid; grid-template-columns: minmax(0, 1fr) 200px; gap: 16px; align-items: stretch; }
+.ov-twin-v { height: 340px; border-radius: var(--r-m); background: var(--surface-2); overflow: hidden; }
+.ov-twin-l { list-style: none; margin: 0; padding: 0; display: grid; align-content: start; gap: 2px; }
+.ov-twin-l li { display: flex; align-items: center; justify-content: space-between; padding: 7px 4px; border-bottom: 1px solid var(--line); font-size: 12.5px; }
+.ov-twin-l li .tnum { font-family: var(--f-mono); font-size: 12px; color: var(--ink-2); }
+.ov-twin-tot { color: var(--ink-3); border-bottom: 0 !important; }
+
+@media (max-width: 1180px) {
+  .ov-grid--three { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ov-grid--three > :last-child { grid-column: span 2; }
+}
+@media (max-width: 860px) {
+  .ov-grid--charts, .ov-grid--three, .ov-twin-b { grid-template-columns: minmax(0, 1fr); }
+  .ov-grid--three > :last-child { grid-column: auto; }
+  .ov-brief-list li { flex-wrap: wrap; }
+  .ov-twin-v { height: 260px; }
+}

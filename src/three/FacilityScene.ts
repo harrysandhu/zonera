@@ -22,18 +22,19 @@ export interface FacilitySceneOptions {
 }
 
 export const STATUS_COLORS: Record<UnitStatus, string> = {
-  occupied: "#9fb0c4",
-  vacant: "#3fbf86",
-  reserved: "#4f8ff7",
-  delinquent: "#f2a93b",
+  occupied: "#c7ccc6",
+  vacant: "#22a35a",
+  reserved: "#3b7cff",
+  delinquent: "#e2a12f",
   overlocked: "#e5484d",
-  maintenance: "#a083d8",
+  maintenance: "#8b7ae6",
 };
 
+// Clay palettes: white massing, soft grey ground, one blue accent.
 const P = {
-  store: { wall: "#f7efe2", wallSide: "#eadfcb", roof: "#5d7fa6", door: "#f39a52", doorDim: "#e9b892", ground: "#c9cfb6", asphalt: "#d3d6d0", grass: "#a3c07a", grassDark: "#86a865", slabSide: "#6f8250", earth: "#7c6548", water: "#3f86c8", line: "#1b2633", pine: "#3d6b54", leaf: "#6f9a5a", accent: "#ee9b5b", glass: "#7fa6c9" },
-  ops: { wall: "#f1f3f2", wallSide: "#e3e7e8", roof: "#8d9db0", door: "#9fb0c4", doorDim: "#9fb0c4", ground: "#d5d9d2", asphalt: "#d9dcd9", grass: "#a9bf90", grassDark: "#8fa877", slabSide: "#8b977a", earth: "#8f8676", water: "#5b95c9", line: "#1b2633", pine: "#5f8270", leaf: "#88a77a", accent: "#ee9b5b", glass: "#9fb7cc" },
-  hud: { wall: "#0d2033", wallSide: "#0a1a2a", roof: "#10273d", door: "#163a57", doorDim: "#123049", ground: "#06111c", asphalt: "#081624", grass: "#07131f", grassDark: "#06101a", slabSide: "#050d16", earth: "#050d16", water: "#0a2a44", line: "#5fd4ff", pine: "#0c2a3a", leaf: "#0c2a3a", accent: "#ffb067", glass: "#1d4c6d" },
+  store: { wall: "#ffffff", wallSide: "#eff1ee", roof: "#e1e4e0", door: "#d6dad5", doorDim: "#e3e6e2", ground: "#e9ece7", asphalt: "#eef0ec", grass: "#e3e8e0", grassDark: "#d2d9ce", slabSide: "#d8ddd5", earth: "#ccd1c9", water: "#d4e0f2", line: "#1d1f1d", pine: "#bccbbd", leaf: "#c9d5c5", accent: "#0358f7", glass: "#cdd9ec" },
+  ops: { wall: "#ffffff", wallSide: "#eff1ee", roof: "#dfe2de", door: "#c7ccc6", doorDim: "#c7ccc6", ground: "#e9ece7", asphalt: "#eef0ec", grass: "#e3e8e0", grassDark: "#d2d9ce", slabSide: "#d8ddd5", earth: "#ccd1c9", water: "#d4e0f2", line: "#1d1f1d", pine: "#bccbbd", leaf: "#c9d5c5", accent: "#0358f7", glass: "#cdd9ec" },
+  hud: { wall: "#0b1424", wallSide: "#08101d", roof: "#0d1a2e", door: "#14284a", doorDim: "#10213d", ground: "#04070c", asphalt: "#060c16", grass: "#05090f", grassDark: "#05090f", slabSide: "#03060b", earth: "#03060b", water: "#071a33", line: "#6aa1ff", pine: "#0c1a2e", leaf: "#0c1a2e", accent: "#8fb6ff", glass: "#1a3561" },
 };
 
 type Pal = (typeof P)["store"];
@@ -208,9 +209,9 @@ export class FacilityScene {
   }
 
   private buildLights() {
-    const hemi = new THREE.HemisphereLight(0xe4eeff, 0x8f9a76, this.mode === "hud" ? 1.2 : 1.55);
+    const hemi = new THREE.HemisphereLight(0xffffff, 0xd9ddd6, this.mode === "hud" ? 1.2 : 1.9);
     this.scene.add(hemi);
-    const sun = new THREE.DirectionalLight(0xfff0da, this.mode === "hud" ? 1.0 : 2.5);
+    const sun = new THREE.DirectionalLight(0xffffff, this.mode === "hud" ? 1.0 : 2.1);
     sun.position.set(-300, 380, 240);
     sun.castShadow = true;
     sun.shadow.mapSize.set(2048, 2048);
@@ -254,7 +255,7 @@ export class FacilityScene {
       this.water = water;
       this.root.add(water);
       // Shoreline sand
-      const sand = new THREE.Mesh(new THREE.BoxGeometry(sw, 0.6, 8), this.mat("sand", this.mode === "store" ? "#e7dcc2" : "#dcd8cd"));
+      const sand = new THREE.Mesh(new THREE.BoxGeometry(sw, 0.6, 8), this.mat("sand", "#e6e8e3"));
       sand.position.set(cx, 0.02, slab.z0 + lakeD + 4);
       sand.receiveShadow = true;
       this.root.add(sand);
@@ -274,7 +275,7 @@ export class FacilityScene {
     this.root.add(yard);
 
     // Road along the south edge and the driveway through the gate.
-    const road = new THREE.Mesh(new THREE.PlaneGeometry(sw, 22), this.mat("road", this.mode === "hud" ? "#0a1a2b" : this.mode === "store" ? "#b9b5ad" : "#c4c6c2"));
+    const road = new THREE.Mesh(new THREE.PlaneGeometry(sw, 22), this.mat("road", this.mode === "hud" ? "#07101e" : "#dfe2dd"));
     road.rotation.x = -Math.PI / 2;
     road.position.set(cx, 0.03, b.z + b.d + 24);
     road.receiveShadow = true;
@@ -285,7 +286,7 @@ export class FacilityScene {
     this.root.add(drive);
 
     // Lane markings — dashed centre lines on the aisles.
-    const dashMat = new THREE.MeshBasicMaterial({ color: this.mode === "hud" ? 0x1f4f6e : 0xffffff, transparent: true, opacity: this.mode === "hud" ? 0.6 : 0.85 });
+    const dashMat = new THREE.MeshBasicMaterial({ color: this.mode === "hud" ? 0x1d3a66 : 0xc9cec7, transparent: true, opacity: this.mode === "hud" ? 0.7 : 0.9 });
     this.materials["dash"] = dashMat as unknown as THREE.MeshLambertMaterial;
     const dash = new THREE.PlaneGeometry(6, 0.8);
     const lanes: [number, number, number, number][] = [
@@ -324,7 +325,7 @@ export class FacilityScene {
     }
 
     // Fence: thin dark rails on posts, open at the gate.
-    const fenceMat = this.mat("fence", this.mode === "hud" ? "#1c4560" : "#3b4752");
+    const fenceMat = this.mat("fence", this.mode === "hud" ? "#1d3a66" : "#a7ada6");
     const rail = (x0: number, z0: number, x1: number, z1: number) => {
       const len = Math.hypot(x1 - x0, z1 - z0);
       const m = new THREE.Mesh(new THREE.BoxGeometry(len, 0.5, 0.5), fenceMat);
@@ -346,7 +347,7 @@ export class FacilityScene {
     rail(x0, z1, FACILITY.gate.x - 14, z1);
     rail(FACILITY.gate.x + 14, z1, x1, z1);
     // Gate arm + keypad post
-    const arm = new THREE.Mesh(new THREE.BoxGeometry(24, 0.9, 0.9), this.mat("arm", this.mode === "hud" ? "#ffb067" : "#ee9b5b"));
+    const arm = new THREE.Mesh(new THREE.BoxGeometry(24, 0.9, 0.9), this.mat("arm", this.mode === "hud" ? "#8fb6ff" : "#1d1f1d"));
     arm.position.set(FACILITY.gate.x - 1, 4.2, z1);
     this.root.add(arm);
     const keypad = new THREE.Mesh(new THREE.BoxGeometry(1.6, 5, 1.6), fenceMat);
@@ -369,7 +370,7 @@ export class FacilityScene {
     }
 
     if (this.mode === "hud" || this.mode === "twin") {
-      const grid = new THREE.GridHelper(900, 90, this.mode === "hud" ? 0x2a6c92 : 0x6f8db0, this.mode === "hud" ? 0x123247 : 0xa9bdd3);
+      const grid = new THREE.GridHelper(900, 90, this.mode === "hud" ? 0x24447a : 0xb9c0b8, this.mode === "hud" ? 0x0f2240 : 0xd5dad4);
       (grid.material as THREE.Material).transparent = true;
       (grid.material as THREE.Material).opacity = this.mode === "hud" ? 0.35 : 0.25;
       grid.position.set(0, this.mode === "hud" ? -0.2 : 0.01, 0);
@@ -400,8 +401,8 @@ export class FacilityScene {
     this.wallMats.push(wallMat);
     this.wallMatSide = this.mat("wallSide", pal.wallSide);
     this.roofMat = this.mat("roof", pal.roof);
-    this.edgeMat = new THREE.LineBasicMaterial({ color: pal.line, transparent: true, opacity: this.mode === "hud" ? 0.75 : 0.22 });
-    const trimMat = this.mat("trim", this.mode === "hud" ? "#12304a" : "#cfc3ae");
+    this.edgeMat = new THREE.LineBasicMaterial({ color: pal.line, transparent: true, opacity: this.mode === "hud" ? 0.7 : 0.13 });
+    const trimMat = this.mat("trim", this.mode === "hud" ? "#132a4d" : "#d9ddd7");
     const glassMat = this.mat("glass", pal.glass);
 
     let idx = 0;
@@ -459,14 +460,14 @@ export class FacilityScene {
             this.dShell.push(band);
           }
         }
-        const canopy = new THREE.Mesh(new THREE.BoxGeometry(6, 0.8, 18), this.mat("canopy", this.mode === "store" ? "#ee9b5b" : "#8a99ab"));
+        const canopy = new THREE.Mesh(new THREE.BoxGeometry(6, 0.8, 18), this.mat("canopy", this.mode === "hud" ? "#132a4d" : "#1d1f1d"));
         canopy.position.set(b.w / 2 + 3, 10, 36 - b.d / 2 - 4);
         canopy.castShadow = true;
         g.add(canopy);
         this.dShell.push(canopy);
         // Floor slabs (visible in x-ray)
         for (let f = 0; f < b.floors; f++) {
-          const slab = new THREE.Mesh(new THREE.BoxGeometry(b.w - 1, 0.6, b.d - 1), this.mat("dfloor" + f, this.mode === "hud" ? "#0f2b44" : "#dfe4e8", { transparent: true, opacity: 0.85 }));
+          const slab = new THREE.Mesh(new THREE.BoxGeometry(b.w - 1, 0.6, b.d - 1), this.mat("dfloor" + f, this.mode === "hud" ? "#0f2240" : "#e4e7e3", { transparent: true, opacity: 0.85 }));
           slab.position.y = f * b.h + 0.3;
           slab.visible = false;
           g.add(slab);
@@ -480,7 +481,7 @@ export class FacilityScene {
         const front = new THREE.Mesh(new THREE.BoxGeometry(b.w - 6, 7, 0.4), glassMat);
         front.position.set(0, 4.5, b.d / 2 + 0.2);
         g.add(front);
-        const sign = new THREE.Mesh(new THREE.BoxGeometry(14, 2.4, 0.6), this.mat("sign", this.mode === "hud" ? "#ffb067" : "#1b2633"));
+        const sign = new THREE.Mesh(new THREE.BoxGeometry(14, 2.4, 0.6), this.mat("sign", this.mode === "hud" ? "#8fb6ff" : "#1d1f1d"));
         sign.position.set(0, H - 1.6, b.d / 2 + 0.5);
         g.add(sign);
       }
@@ -525,8 +526,8 @@ export class FacilityScene {
 
     // Parking spaces: a few boats and RVs parked in the occupied ones.
     const pk = UNITS.filter(u => u.kind === "parking");
-    const hull = this.mat("hull", this.mode === "hud" ? "#163a57" : "#f6f4ef");
-    const rv = this.mat("rv", this.mode === "hud" ? "#163a57" : "#e8e2d6");
+    const hull = this.mat("hull", this.mode === "hud" ? "#14284a" : "#ffffff");
+    const rv = this.mat("rv", this.mode === "hud" ? "#14284a" : "#f1f2ef");
     pk.forEach((u, i) => {
       if (u.status === "vacant") return;
       const isBoat = i % 2 === 0;
@@ -580,7 +581,7 @@ export class FacilityScene {
     const trunkGeo = new THREE.CylinderGeometry(0.8, 1, 5, 5);
     const pineMat = this.mat("pine", this.pal.pine, { flatShading: true });
     const leafMat = this.mat("leaf", this.pal.leaf, { flatShading: true });
-    const trunkMat = this.mat("trunk", "#7a5d43");
+    const trunkMat = this.mat("trunk", "#b9b2a6");
     const pines = spots.filter(s => s.kind === 0);
     const leaves = spots.filter(s => s.kind === 1);
     const c1 = new THREE.InstancedMesh(coneGeo, pineMat, pines.length);
@@ -615,10 +616,10 @@ export class FacilityScene {
     this.beamMat = new THREE.ShaderMaterial({
       vertexShader: beamVert,
       fragmentShader: beamFrag,
-      uniforms: { uColor: { value: new THREE.Color(this.pal.accent) }, uTime: { value: 0 }, uOpacity: { value: 0.75 } },
+      uniforms: { uColor: { value: new THREE.Color(this.pal.accent) }, uTime: { value: 0 }, uOpacity: { value: this.mode === "hud" ? 0.75 : 0.5 } },
       transparent: true,
       depthWrite: false,
-      blending: THREE.AdditiveBlending,
+      blending: this.mode === "hud" ? THREE.AdditiveBlending : THREE.NormalBlending,
       side: THREE.DoubleSide,
     });
     this.beam = new THREE.Mesh(new THREE.CylinderGeometry(4, 6, 90, 24, 1, true), this.beamMat);
@@ -655,7 +656,7 @@ export class FacilityScene {
     this.doorMesh.instanceColor!.needsUpdate = true;
     this.interiorUnits.forEach((u, i) => {
       const st = override?.[u.id] ?? u.status;
-      this.interiorMesh.setColorAt(i, new THREE.Color(hud ? "#163a57" : this.mode === "store" ? (st === "vacant" ? "#f6d2b1" : "#e9e3d8") : STATUS_COLORS[st]));
+      this.interiorMesh.setColorAt(i, new THREE.Color(hud ? "#14284a" : this.mode === "store" ? (st === "vacant" ? "#cddcff" : "#e6e9e5") : STATUS_COLORS[st]));
     });
     this.interiorMesh.instanceColor!.needsUpdate = true;
   }
@@ -686,7 +687,7 @@ export class FacilityScene {
     // Dim everything else in store mode so the available ones read.
     if (this.mode === "store") {
       this.doorUnits.forEach((_, i) => {
-        const c = new THREE.Color(ids.length && !this.pulse.has(i) ? this.pal.doorDim : this.pal.door);
+        const c = new THREE.Color(this.pulse.has(i) ? "#5b8dff" : ids.length ? this.pal.doorDim : this.pal.door);
         this.doorBase[i] = c;
         this.doorMesh.setColorAt(i, c);
       });
@@ -695,7 +696,7 @@ export class FacilityScene {
     const climate = ids.filter(id => UNIT_BY_ID.get(id)?.kind === "climate");
     this.setXray(climate.length > 0 || (this.selected ? UNIT_BY_ID.get(this.selected)?.kind === "climate" : false));
     if (climate.length && this.mode === "store") {
-      this.interiorUnits.forEach((u, i) => this.interiorMesh.setColorAt(i, new THREE.Color(ids.includes(u.id) ? "#f2a66b" : "#ebe5da")));
+      this.interiorUnits.forEach((u, i) => this.interiorMesh.setColorAt(i, new THREE.Color(ids.includes(u.id) ? "#5b8dff" : "#e6e9e5")));
       this.interiorMesh.instanceColor!.needsUpdate = true;
     }
   }
@@ -819,7 +820,7 @@ export class FacilityScene {
     this.routeMat = new THREE.ShaderMaterial({
       vertexShader: beamVert,
       fragmentShader: routeFrag,
-      uniforms: { uColor: { value: new THREE.Color(this.mode === "hud" ? "#ffb067" : "#ee9b5b") }, uTime: { value: 0 }, uReveal: { value: 0 }, uLen: { value: total } },
+      uniforms: { uColor: { value: new THREE.Color(this.mode === "hud" ? "#4d8bff" : "#0358f7") }, uTime: { value: 0 }, uReveal: { value: 0 }, uLen: { value: total } },
       transparent: true,
       depthWrite: false,
       side: THREE.DoubleSide,
@@ -830,13 +831,13 @@ export class FacilityScene {
 
     // Car: a small glowing wedge with headlights.
     const car = new THREE.Group();
-    const body = new THREE.Mesh(new THREE.BoxGeometry(7, 3.2, 14), new THREE.MeshBasicMaterial({ color: this.mode === "hud" ? 0xffe2c4 : 0xf6f4ef }));
+    const body = new THREE.Mesh(new THREE.BoxGeometry(7, 3.2, 14), new THREE.MeshBasicMaterial({ color: 0xffffff }));
     body.position.y = 2.2;
     car.add(body);
-    const cab = new THREE.Mesh(new THREE.BoxGeometry(6.2, 2.4, 7), new THREE.MeshBasicMaterial({ color: this.mode === "hud" ? 0xffb067 : 0x3b4752 }));
+    const cab = new THREE.Mesh(new THREE.BoxGeometry(6.2, 2.4, 7), new THREE.MeshBasicMaterial({ color: this.mode === "hud" ? 0x4d8bff : 0x1d1f1d }));
     cab.position.set(0, 4.6, 1);
     car.add(cab);
-    const glow = new THREE.Mesh(new THREE.CircleGeometry(12, 32), new THREE.MeshBasicMaterial({ color: 0xffb067, transparent: true, opacity: 0.18, depthWrite: false }));
+    const glow = new THREE.Mesh(new THREE.CircleGeometry(12, 32), new THREE.MeshBasicMaterial({ color: 0x4d8bff, transparent: true, opacity: 0.22, depthWrite: false }));
     glow.rotation.x = -Math.PI / 2;
     glow.position.y = 0.7;
     car.add(glow);
@@ -844,7 +845,7 @@ export class FacilityScene {
     this.routeGroup.add(car);
 
     // Gate ring
-    const gr = new THREE.Mesh(new THREE.RingGeometry(9, 10.5, 48), new THREE.MeshBasicMaterial({ color: 0x5fd4ff, transparent: true, opacity: 0.8, depthWrite: false, side: THREE.DoubleSide }));
+    const gr = new THREE.Mesh(new THREE.RingGeometry(9, 10.5, 48), new THREE.MeshBasicMaterial({ color: 0x8fb6ff, transparent: true, opacity: 0.8, depthWrite: false, side: THREE.DoubleSide }));
     gr.rotation.x = -Math.PI / 2;
     gr.position.set(FACILITY.gate.x, 0.8, FACILITY.gate.z);
     this.gateRing = gr;
@@ -1002,7 +1003,7 @@ export class FacilityScene {
     if (this.pulse.size) {
       const a = 0.5 + 0.5 * Math.sin(this.time * 3.2);
       for (const i of this.pulse) {
-        this.pulseColor.copy(this.doorBase[i]).lerp(new THREE.Color("#fff3e6"), a * 0.55);
+        this.pulseColor.copy(this.doorBase[i]).lerp(new THREE.Color(this.mode === "store" ? "#0358f7" : "#ffffff"), a * 0.5);
         this.doorMesh.setColorAt(i, this.pulseColor);
       }
       this.doorMesh.instanceColor!.needsUpdate = true;
