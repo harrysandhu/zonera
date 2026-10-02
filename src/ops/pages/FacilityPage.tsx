@@ -133,36 +133,12 @@ export default function FacilityPage({ id }: { id?: string }) {
           title="Digital twin"
           sub={
             <>
-              {occ.units} units · {fmt.pct(occ.byUnit)} occupied · {occ.vacant} available · live from the rent roll
+              {occ.units} units · {fmt.pct(occ.byUnit)} occupied · {occ.vacant} available
             </>
           }
           ask="Hold a free 10×20 for Owen Murphy"
           actions={
             <>
-              <div className="pa-twin-find">
-                <SearchBox
-                  value={q}
-                  onChange={setQ}
-                  placeholder="Unit or tenant"
-                  onKeyDown={e => {
-                    if (e.key === "Enter" && results[0]) pick(results[0].unit);
-                    if (e.key === "Escape") setQ("");
-                  }}
-                />
-                {results.length > 0 && (
-                  <ul className="pa-pop">
-                    {results.map(r => (
-                      <li key={r.label}>
-                        <button onClick={() => pick(r.unit)}>
-                          {r.label.includes("-") && !r.label.includes(" ") ? <span className="pa-pop-id mono">{r.label}</span> : <Avatar name={r.label} size="sm" />}
-                          <span className="pa-pop-t">{r.label.includes(" ") ? r.label : r.sub}</span>
-                          <span className="pa-pop-s mono">{r.label.includes(" ") ? r.sub : sizeLabel(r.unit.size)}</span>
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
               <Seg
                 value={view}
                 onChange={v => {
@@ -187,6 +163,30 @@ export default function FacilityPage({ id }: { id?: string }) {
       </button>
 
       <aside className="pa-twin-left">
+        <div className="pa-twin-find">
+          <SearchBox
+            value={q}
+            onChange={setQ}
+            placeholder="Find a unit or tenant"
+            onKeyDown={e => {
+              if (e.key === "Enter" && results[0]) pick(results[0].unit);
+              if (e.key === "Escape") setQ("");
+            }}
+          />
+          {results.length > 0 && (
+            <ul className="pa-pop">
+              {results.map(r => (
+                <li key={r.label}>
+                  <button onClick={() => pick(r.unit)}>
+                    {r.label.includes("-") && !r.label.includes(" ") ? <span className="pa-pop-id mono">{r.label}</span> : <Avatar name={r.label} size="sm" />}
+                    <span className="pa-pop-t">{r.label.includes(" ") ? r.label : r.sub}</span>
+                    <span className="pa-pop-s mono">{r.label.includes(" ") ? r.sub : sizeLabel(r.unit.size)}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
         <div className="pa-float">
           <div className="pa-float-h">
             <span>Status</span>
