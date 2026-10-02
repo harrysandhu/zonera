@@ -8,6 +8,6 @@ page.on("console", m => { if (m.type() === "error" || m.type() === "warning") lo
 page.on("pageerror", e => logs.push("pageerror: " + e.message));
 await page.goto(url, { waitUntil: "networkidle" });
 await page.waitForTimeout(+wait);
-await page.screenshot({ path: out });
+await page.screenshot({ path: out, fullPage: !!process.env.FULL });
 console.log(logs.slice(0, 15).join("\n") || "no console errors");
 await browser.close();
