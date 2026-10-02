@@ -113,20 +113,20 @@ export function go(route: string, params: Record<string, string> = {}) {
   notify();
 }
 
-const KNOWN = ["store", "ops", "brand"];
+const KNOWN = ["store", "ops", "brand", "admin", "onboard"];
 export function routeFromHash() {
   const h = (location.hash || "").replace(/^#/, "");
   if (!h) return;
   const [head, ...rest] = h.split("-");
   if (!KNOWN.includes(head)) return;
-  if (head === "store" || head === "brand") {
+  if (head === "store" || head === "brand" || head === "onboard") {
     nav.route = [head, ...rest].join("/");
     return;
   }
-  // ops-<page>-<id with dashes, e.g. T-1000 or A-126>
+  // ops-<page>-<id with dashes, e.g. T-1000 or A-126>; admin-<page>-<id> the same way
   const page = rest[0] ?? "overview";
   const id = rest.slice(1).join("-");
-  nav.route = id ? `ops/${page}/${id}` : `ops/${page}`;
+  nav.route = id ? `${head}/${page}/${id}` : `${head}/${page}`;
 }
 
 export function setCallsOpen(open: boolean) {
