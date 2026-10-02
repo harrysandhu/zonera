@@ -1,0 +1,15 @@
+ZONERA — hero identity plate, prompt v1 (pre-debate)
+
+Model: gpt_image_2_5 · 16:9 · references: ref-1 lake meadow, ref-2 lake panorama, ref-3 SF golden hour.
+
+A hand-painted Japanese animation background painting in watercolor and gouache: a sunlit alpine lake valley in the spirit of the attached references. Wide 16:9.
+
+Image 1 and Image 2 set the world: a deep cobalt lake glittering with sun, layered blue mountain ranges receding in atmospheric perspective, a clear cerulean sky with long streaked white clouds, conifers and a flowering meadow in the foreground. Image 3 contributes only warmth: a faint apricot glow low on the horizon and warm sunlight on surfaces.
+
+In the lower-middle of the frame, on a gentle meadow plateau above the lakeshore, sits a small, beautiful self-storage facility seen from a near-isometric elevated angle: four parallel rows of low single-story buildings with cream walls, slate-blue metal roofs and evenly spaced roll-up doors painted soft apricot, separated by clean pale drive aisles; one two-story climate-controlled building with large windows and warm timber cladding; a small office with a gate and a curved tree-lined road joining the lakeside road. Solar panels on some roofs. Hedges and young trees soften the edges. One apricot door stands open with a small white van and a tiny person carrying a cardboard box.
+
+Large lowercase wordmark "zonera" centered in the open sky in a soft expressive serif, deep ink color.
+
+Foreground: meadow grass, yellow wildflowers and white daisies framing the lower corners.
+
+No other text. No logos. Not photorealistic, not 3D render.

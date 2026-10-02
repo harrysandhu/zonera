@@ -1,0 +1,123 @@
+/* Zonera — a painted lakeside world around a crisp, quiet operating surface.
+   Ink and paper run the interface; lake, pine and butter belong to the painting;
+   apricot is reserved for "your unit" — the door you are about to open. */
+:root {
+  --ink: #16202b;
+  --ink-2: #4a5866;
+  --ink-3: #7b8894;
+  --paper: #fbfbf8;
+  --surface: #ffffff;
+  --surface-2: #f2f4f1;
+  --surface-3: #e8ece8;
+  --line: rgba(22, 32, 43, 0.09);
+  --line-2: rgba(22, 32, 43, 0.16);
+  --lake: #2b6db3;
+  --lake-soft: #e7f0fa;
+  --pine: #2f5546;
+  --pine-soft: #e5efe9;
+  --apricot: #ee9b5b;
+  --apricot-ink: #a24f16;
+  --apricot-soft: #fdefe3;
+  --butter: #efd27c;
+  --ok: #24935f;
+  --ok-soft: #e3f4ec;
+  --warn: #c97a0e;
+  --warn-soft: #fcf1de;
+  --bad: #d13f3a;
+  --bad-soft: #fce8e7;
+  --info: #3570d4;
+  --info-soft: #e6eefb;
+  --violet: #7e62c7;
+  --violet-soft: #efe9fa;
+  --on-ink: #fbfbf8;
+  --scrim: rgba(13, 19, 26, 0.42);
+  --shadow-s: 0 1px 2px rgba(22, 32, 43, 0.06);
+  --shadow-m: 0 1px 2px rgba(22, 32, 43, 0.05), 0 10px 28px -14px rgba(22, 32, 43, 0.22);
+  --shadow-l: 0 2px 6px rgba(22, 32, 43, 0.05), 0 28px 60px -24px rgba(22, 32, 43, 0.35);
+  --r-xs: 6px;
+  --r-s: 9px;
+  --r-m: 13px;
+  --r-l: 20px;
+  --f-display: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --f-ui: "Instrument Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --f-sign: "Homemade Apple", "Snell Roundhand", cursive;
+  --hud-bg: #050c14;
+  --hud-line: #5fd4ff;
+  --hud-dim: rgba(95, 212, 255, 0.35);
+  --hud-text: #cfefff;
+  --hud-accent: #ffb067;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ink: #e8edf1;
+    --ink-2: #a8b5c1;
+    --ink-3: #788795;
+    --paper: #0c1218;
+    --surface: #121a22;
+    --surface-2: #17212b;
+    --surface-3: #1e2a36;
+    --line: rgba(232, 237, 241, 0.08);
+    --line-2: rgba(232, 237, 241, 0.15);
+    --lake: #6ea8ea;
+    --lake-soft: rgba(110, 168, 234, 0.13);
+    --pine: #86b9a1;
+    --pine-soft: rgba(134, 185, 161, 0.13);
+    --apricot: #f2a76a;
+    --apricot-ink: #f5b685;
+    --apricot-soft: rgba(242, 167, 106, 0.14);
+    --butter: #e9cd78;
+    --ok: #4cc38a;
+    --ok-soft: rgba(76, 195, 138, 0.13);
+    --warn: #f0b04c;
+    --warn-soft: rgba(240, 176, 76, 0.13);
+    --bad: #f0706b;
+    --bad-soft: rgba(240, 112, 107, 0.14);
+    --info: #79a7f5;
+    --info-soft: rgba(121, 167, 245, 0.14);
+    --violet: #b29cf0;
+    --violet-soft: rgba(178, 156, 240, 0.14);
+    --on-ink: #0c1218;
+    --scrim: rgba(0, 0, 0, 0.55);
+    --shadow-s: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-m: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 30px -14px rgba(0, 0, 0, 0.6);
+    --shadow-l: 0 2px 6px rgba(0, 0, 0, 0.3), 0 28px 60px -24px rgba(0, 0, 0, 0.7);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --ink: #e8edf1;
+  --ink-2: #a8b5c1;
+  --ink-3: #788795;
+  --paper: #0c1218;
+  --surface: #121a22;
+  --surface-2: #17212b;
+  --surface-3: #1e2a36;
+  --line: rgba(232, 237, 241, 0.08);
+  --line-2: rgba(232, 237, 241, 0.15);
+  --lake: #6ea8ea;
+  --lake-soft: rgba(110, 168, 234, 0.13);
+  --pine: #86b9a1;
+  --pine-soft: rgba(134, 185, 161, 0.13);
+  --apricot: #f2a76a;
+  --apricot-ink: #f5b685;
+  --apricot-soft: rgba(242, 167, 106, 0.14);
+  --butter: #e9cd78;
+  --ok: #4cc38a;
+  --ok-soft: rgba(76, 195, 138, 0.13);
+  --warn: #f0b04c;
+  --warn-soft: rgba(240, 176, 76, 0.13);
+  --bad: #f0706b;
+  --bad-soft: rgba(240, 112, 107, 0.14);
+  --info: #79a7f5;
+  --info-soft: rgba(121, 167, 245, 0.14);
+  --violet: #b29cf0;
+  --violet-soft: rgba(178, 156, 240, 0.14);
+  --on-ink: #0c1218;
+  --scrim: rgba(0, 0, 0, 0.55);
+  --shadow-s: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-m: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 30px -14px rgba(0, 0, 0, 0.6);
+  --shadow-l: 0 2px 6px rgba(0, 0, 0, 0.3), 0 28px 60px -24px rgba(0, 0, 0, 0.7);
+  color-scheme: dark;
+}

@@ -1,0 +1,22 @@
+{
+  "provider": "Higgsfield",
+  "model": "gpt_image_2_5",
+  "date": "2026-10-02",
+  "references": {
+    "ref-1-lake-meadow.jpg": "5859d58b-82fc-41af-8a50-9e18f7843d23",
+    "ref-2-lake-panorama.jpg": "31ce3580-1510-42df-81f9-8c0fb533b0e4",
+    "ref-3-sf-dolores-golden.jpg": "5c0be750-bb5f-4385-a8e3-49e8e32f286a"
+  },
+  "jobs": [
+    { "id": "e66d547d-41c2-4cf5-9447-182bba28e3c9", "file": "art/explore/b-cool-1.jpg", "prompt": "prompts/hero-B-cool.txt", "quality": "medium", "resolution": "2k", "refs": [1, 2], "review": "Only two rows; facility too wide. Not selected." },
+    { "id": "214e3ce3-2430-4c61-8c86-e7bf4cc180e6", "file": "art/explore/b-cool-2.jpg → art/zonera-plate-clean.png", "prompt": "prompts/hero-B-cool.txt", "quality": "medium", "resolution": "2k", "refs": [1, 2], "review": "SELECTED. Three rows read as storage at thumbnail size, coral doors, timber climate/office building, curved drive to gate, clean sky zone, no stray text." },
+    { "id": "94b4cbc9-7899-466c-8a76-386e07851382", "file": "art/explore/b-warm-1.jpg", "prompt": "prompts/hero-B-warm.txt", "quality": "medium", "resolution": "2k", "refs": [1, 2, 3], "review": "Warm variant using the SF reference. Very close second; warmer walls, visible sun. Kept as alternate." },
+    { "id": "9fd988c1-8233-459a-9373-3993f757e171", "file": "art/zonera-plate-identity.png", "prompt": "prompts/hero-A-edit.txt (edit of 214e3ce3)", "quality": "high", "resolution": "2k", "review": "SELECTED identity plate. 'zonera' spelled correctly once, 'Just ask.' beneath, scene unchanged." },
+    { "id": "0f1ffcec-68b6-46d7-a651-8c8c3fb1a15d", "file": "art/units/5x5.jpg", "quality": "medium", "resolution": "1k" },
+    { "id": "a6885f00-b25a-4cbb-aaf0-ddb0814b067c", "file": "art/units/5x10.jpg", "quality": "medium", "resolution": "1k" },
+    { "id": "d00d794a-83ee-4a46-9e36-96defdfeaeb9", "file": "art/units/10x10.jpg", "quality": "medium", "resolution": "1k" },
+    { "id": "a070133e-7301-4a8f-a212-686fbb9986de", "file": "art/units/10x15.jpg", "quality": "medium", "resolution": "1k" },
+    { "id": "cf039d02-f27d-4646-b999-ba9dff65f097", "file": "art/units/10x20.jpg", "quality": "medium", "resolution": "1k" },
+    { "id": "48faf49f-23c0-49a6-b5ab-7ff3e3d18d8b", "file": "art/units/10x30.jpg", "quality": "medium", "resolution": "1k" }
+  ]
+}
