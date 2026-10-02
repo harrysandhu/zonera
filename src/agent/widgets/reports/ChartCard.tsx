@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { BarChart3, Check, FilePlus2, Table2, ChevronRight, ArrowUpRight } from "lucide-react";
-import { askAgent, go, useDemo } from "../../../state/store";
+import { go, useDemo } from "../../../state/store";
+import { askIn } from "../../controller";
 import { defineWidget } from "../frame";
 import { addToReport, isInReport, removeFromReport } from "../../skills/reports/state";
 import { Columns, CompareBars, HBars, Trend, format, type ColDatum, type Fmt, type HBarRow, type PairDatum } from "./charts";
@@ -131,7 +132,7 @@ export const ChartCard = defineWidget<ChartCardProps, void>(function ChartCard(w
             </button>
           )}
           {p.breakdowns?.map(b => (
-            <button key={b.label} type="button" className="agr-chip" data-auto={"by:" + b.label} onClick={() => askAgent(b.ask)}>
+            <button key={b.label} type="button" className="agr-chip" data-auto={"by:" + b.label} onClick={() => void askIn(w.s, b.ask)}>
               {b.label}
               <ChevronRight />
             </button>
